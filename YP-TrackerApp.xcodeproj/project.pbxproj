@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		8B90E8F829F98FBD00F7D996 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B90E8F729F98FBD00F7D996 /* AppDelegate.swift */; };
 		8B90E8FA29F98FBD00F7D996 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B90E8F929F98FBD00F7D996 /* SceneDelegate.swift */; };
-		8B90E8FC29F98FBD00F7D996 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B90E8FB29F98FBD00F7D996 /* TabBarViewController.swift */; };
+		8B90E8FC29F98FBD00F7D996 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B90E8FB29F98FBD00F7D996 /* TabBarController.swift */; };
 		8B90E90129F98FBE00F7D996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B90E90029F98FBE00F7D996 /* Assets.xcassets */; };
 		8B90E90429F98FBE00F7D996 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B90E90229F98FBE00F7D996 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -18,7 +18,7 @@
 		8B90E8F429F98FBD00F7D996 /* YP-TrackerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YP-TrackerApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B90E8F729F98FBD00F7D996 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B90E8F929F98FBD00F7D996 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8B90E8FB29F98FBD00F7D996 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		8B90E8FB29F98FBD00F7D996 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		8B90E90029F98FBE00F7D996 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B90E90329F98FBE00F7D996 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B90E90529F98FBE00F7D996 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -56,7 +56,7 @@
 			children = (
 				8B90E8F729F98FBD00F7D996 /* AppDelegate.swift */,
 				8B90E8F929F98FBD00F7D996 /* SceneDelegate.swift */,
-				8B90E8FB29F98FBD00F7D996 /* TabBarViewController.swift */,
+				8B90E8FB29F98FBD00F7D996 /* TabBarController.swift */,
 				8B90E90029F98FBE00F7D996 /* Assets.xcassets */,
 				8B90E90229F98FBE00F7D996 /* LaunchScreen.storyboard */,
 				8B90E90529F98FBE00F7D996 /* Info.plist */,
@@ -134,7 +134,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B90E8FC29F98FBD00F7D996 /* TabBarViewController.swift in Sources */,
+				8B90E8FC29F98FBD00F7D996 /* TabBarController.swift in Sources */,
 				8B90E8F829F98FBD00F7D996 /* AppDelegate.swift in Sources */,
 				8B90E8FA29F98FBD00F7D996 /* SceneDelegate.swift in Sources */,
 			);
