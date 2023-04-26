@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B27FADC29F9A887009F0DF2 /* StatsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B27FADB29F9A887009F0DF2 /* StatsController.swift */; };
+		8B27FADE29F9A8D1009F0DF2 /* TrackersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B27FADD29F9A8D1009F0DF2 /* TrackersController.swift */; };
 		8B90E8F829F98FBD00F7D996 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B90E8F729F98FBD00F7D996 /* AppDelegate.swift */; };
 		8B90E8FA29F98FBD00F7D996 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B90E8F929F98FBD00F7D996 /* SceneDelegate.swift */; };
 		8B90E8FC29F98FBD00F7D996 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B90E8FB29F98FBD00F7D996 /* TabBarController.swift */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8B27FADB29F9A887009F0DF2 /* StatsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsController.swift; sourceTree = "<group>"; };
+		8B27FADD29F9A8D1009F0DF2 /* TrackersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersController.swift; sourceTree = "<group>"; };
 		8B90E8F429F98FBD00F7D996 /* YP-TrackerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YP-TrackerApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B90E8F729F98FBD00F7D996 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B90E8F929F98FBD00F7D996 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +64,8 @@
 				8B90E90029F98FBE00F7D996 /* Assets.xcassets */,
 				8B90E90229F98FBE00F7D996 /* LaunchScreen.storyboard */,
 				8B90E90529F98FBE00F7D996 /* Info.plist */,
+				8B27FADB29F9A887009F0DF2 /* StatsController.swift */,
+				8B27FADD29F9A8D1009F0DF2 /* TrackersController.swift */,
 			);
 			path = "YP-TrackerApp";
 			sourceTree = "<group>";
@@ -135,6 +141,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B90E8FC29F98FBD00F7D996 /* TabBarController.swift in Sources */,
+				8B27FADC29F9A887009F0DF2 /* StatsController.swift in Sources */,
+				8B27FADE29F9A8D1009F0DF2 /* TrackersController.swift in Sources */,
 				8B90E8F829F98FBD00F7D996 /* AppDelegate.swift in Sources */,
 				8B90E8FA29F98FBD00F7D996 /* SceneDelegate.swift in Sources */,
 			);
