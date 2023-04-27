@@ -10,5 +10,10 @@ import UIKit
 class StatsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureView()
+    }
+    
+    func configureView() {
+        view.backgroundColor = UIColor(named: "ViewBackgroundColor")
     }
 }

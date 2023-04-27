@@ -19,12 +19,13 @@
 /* Begin PBXFileReference section */
 		8B27FADB29F9A887009F0DF2 /* StatsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsController.swift; sourceTree = "<group>"; };
 		8B27FADD29F9A8D1009F0DF2 /* TrackersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersController.swift; sourceTree = "<group>"; };
+		8B27FAE529FA76FA009F0DF2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B27FAE929FA77C6009F0DF2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ru; path = ru.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B90E8F429F98FBD00F7D996 /* YP-TrackerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YP-TrackerApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B90E8F729F98FBD00F7D996 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B90E8F929F98FBD00F7D996 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8B90E8FB29F98FBD00F7D996 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		8B90E90029F98FBE00F7D996 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		8B90E90329F98FBE00F7D996 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B90E90529F98FBE00F7D996 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -39,6 +40,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B27FADF29F9AF3D009F0DF2 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8B90E8FB29F98FBD00F7D996 /* TabBarController.swift */,
+				8B27FADD29F9A8D1009F0DF2 /* TrackersController.swift */,
+				8B27FADB29F9A887009F0DF2 /* StatsController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		8B90E8EB29F98FBD00F7D996 = {
 			isa = PBXGroup;
 			children = (
@@ -60,12 +71,10 @@
 			children = (
 				8B90E8F729F98FBD00F7D996 /* AppDelegate.swift */,
 				8B90E8F929F98FBD00F7D996 /* SceneDelegate.swift */,
-				8B90E8FB29F98FBD00F7D996 /* TabBarController.swift */,
+				8B27FADF29F9AF3D009F0DF2 /* Controllers */,
 				8B90E90029F98FBE00F7D996 /* Assets.xcassets */,
 				8B90E90229F98FBE00F7D996 /* LaunchScreen.storyboard */,
 				8B90E90529F98FBE00F7D996 /* Info.plist */,
-				8B27FADB29F9A887009F0DF2 /* StatsController.swift */,
-				8B27FADD29F9A8D1009F0DF2 /* TrackersController.swift */,
 			);
 			path = "YP-TrackerApp";
 			sourceTree = "<group>";
@@ -107,11 +116,11 @@
 			};
 			buildConfigurationList = 8B90E8EF29F98FBD00F7D996 /* Build configuration list for PBXProject "YP-TrackerApp" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				ru,
 				en,
-				Base,
 			);
 			mainGroup = 8B90E8EB29F98FBD00F7D996;
 			productRefGroup = 8B90E8F529F98FBD00F7D996 /* Products */;
@@ -154,7 +163,8 @@
 		8B90E90229F98FBE00F7D996 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				8B90E90329F98FBE00F7D996 /* Base */,
+				8B27FAE529FA76FA009F0DF2 /* en */,
+				8B27FAE929FA77C6009F0DF2 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -166,6 +176,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -226,6 +237,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -291,7 +303,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -324,7 +336,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
