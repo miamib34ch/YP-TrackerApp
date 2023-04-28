@@ -11,13 +11,28 @@ class TrackersController: UIViewController {
     
     let button = UIButton()
     let label = UILabel()
-    let datePicker = UIDatePicker()
     let searchBar = UISearchBar()
+    let datePicker = UIDatePicker()
+
+    var datePickerBackgroundView: UIView {
+        get { self.datePicker.subviews[0].subviews[0].subviews[0] }
+    }
+    var datePickerTextLabel: UILabel? {
+        get { datePicker.subviews[0].subviews[0].subviews[1].subviews.first as? UILabel }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
     }
+    
+    override func viewDidLayoutSubviews() {
+        //меняем цвет фона datePicker, поскольку каждый раз при открытии вью он отрисовывается с параметрами по-умолчанию
+        //метод выбран, потому что вью уже отрисовано и можно менять цвет
+        datePickerBackgroundView.backgroundColor = UIColor(named: "DatePickerBackgroundColor")
+    }
+    
     
     func configureView() {
         view.backgroundColor = UIColor(named: "ViewBackgroundColor")
@@ -73,12 +88,10 @@ class TrackersController: UIViewController {
         datePicker.datePickerMode = .date
         
         // Устанавливаем цвет фона подложки выбранной даты
-        datePicker.backgroundColor = UIColor(named: "DatePickerBackgroundColor")
-        datePicker.layer.cornerRadius = 8
-        datePicker.layer.masksToBounds = true
+        datePickerBackgroundView.backgroundColor = UIColor(named: "DatePickerBackgroundColor")
         
         // Измененяем цвет текста
-        (datePicker.subviews[0].subviews[0].subviews[1].subviews.first as? UILabel)?.textColor = UIColor(named: "DatePickerTextColor")
+        datePickerTextLabel?.textColor = UIColor(named: "DatePickerTextColor")
 
         // Также добавляем изменение цвета текста на момент, когда календарь открывается и закрывается, потому что лейбл отрисовывается заново с начальными параметрами
         datePicker.addTarget(self, action: #selector(calendarOpenedClosed), for: .editingDidBegin)
@@ -143,11 +156,13 @@ class TrackersController: UIViewController {
     }
     
     @objc func selectDate() {
-        
+        //меняем цвет фона datePicker, поскольку каждый раз при выборе новой даты он отрисовывается с параметрами по-умолчанию
+        datePickerBackgroundView.backgroundColor = UIColor(named: "DatePickerBackgroundColor")
     }
     
     @objc func calendarOpenedClosed() {
-        (datePicker.subviews[0].subviews[0].subviews[1].subviews.first as? UILabel)?.textColor = UIColor(named: "DatePickerTextColor")
+        //меняем цвет текста datePicker, поскольку каждый раз при открытии и закрытии календаря он отрисовывается с параметрами по-умолчанию
+        datePickerTextLabel?.textColor = UIColor(named: "DatePickerTextColor")
     }
 }
 
