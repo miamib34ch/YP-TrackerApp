@@ -15,7 +15,7 @@ class TrackersController: UIViewController {
     let datePicker = UIDatePicker()
 
     var datePickerBackgroundView: UIView {
-        get { self.datePicker.subviews[0].subviews[0].subviews[0] }
+        get { datePicker.subviews[0].subviews[0].subviews[0] }
     }
     var datePickerTextLabel: UILabel? {
         get { datePicker.subviews[0].subviews[0].subviews[1].subviews.first as? UILabel }
