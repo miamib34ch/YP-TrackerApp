@@ -10,9 +10,12 @@ import UIKit
 class TrackersController: UIViewController {
     
     let button = UIButton()
-    let label = UILabel()
-    let searchBar = UISearchBar()
+    let mainLabel = UILabel()
     let datePicker = UIDatePicker()
+    let searchBar = UISearchBar()
+    
+    let imageView = UIImageView()
+    let imageLabel = UILabel()
 
     var datePickerBackgroundView: UIView {
         get { datePicker.subviews[0].subviews[0].subviews[0] }
@@ -28,6 +31,7 @@ class TrackersController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         //меняем цвет фона datePicker, поскольку каждый раз при открытии вью он отрисовывается с параметрами по-умолчанию
         //метод выбран, потому что вью уже отрисовано и можно менять цвет
         datePickerBackgroundView.backgroundColor = UIColor(named: "DatePickerBackgroundColor")
@@ -37,9 +41,11 @@ class TrackersController: UIViewController {
     func configureView() {
         view.backgroundColor = UIColor(named: "ViewBackgroundColor")
         configureButton()
-        configureLabel()
+        configureMainLabel()
         configureDatePicker()
         configureSearchTextField()
+        configureImage()
+        configureImageLabel()
     }
     
     func configureButton() {
@@ -60,27 +66,27 @@ class TrackersController: UIViewController {
         ])
     }
     
-    func configureLabel() {
+    func configureMainLabel() {
         if !view.subviews.contains(button) {
             return
         }
         
-        label.text = "Трекеры"
-        label.textColor = UIColor(named: "ViewForegroundColor")
-        label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
+        mainLabel.text = "Трекеры"
+        mainLabel.textColor = UIColor(named: "ViewForegroundColor")
+        mainLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         
-        label.translatesAutoresizingMaskIntoConstraints = false
+        mainLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(label)
+        view.addSubview(mainLabel)
         
         NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            label.topAnchor.constraint(equalTo: button.safeAreaLayoutGuide.bottomAnchor, constant: 1)
+            mainLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            mainLabel.topAnchor.constraint(equalTo: button.safeAreaLayoutGuide.bottomAnchor, constant: 1)
         ])
     }
     
     func configureDatePicker() {
-        if !view.subviews.contains(label) {
+        if !view.subviews.contains(mainLabel) {
             return
         }
         
@@ -107,12 +113,12 @@ class TrackersController: UIViewController {
             datePicker.widthAnchor.constraint(equalToConstant: 110),
             
             datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            datePicker.centerYAnchor.constraint(equalTo: label.centerYAnchor)
+            datePicker.centerYAnchor.constraint(equalTo: mainLabel.centerYAnchor)
         ])
     }
     
     func configureSearchTextField() {
-        if !view.subviews.contains(label) {
+        if !view.subviews.contains(mainLabel) {
             return
         }
         
@@ -143,11 +149,43 @@ class TrackersController: UIViewController {
         NSLayoutConstraint.activate([
             searchBar.heightAnchor.constraint(equalToConstant: 36),
             
-            searchBar.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 7),
+            searchBar.topAnchor.constraint(equalTo: mainLabel.bottomAnchor, constant: 7),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
             
             
+        ])
+    }
+    
+    func configureImage() {
+        imageView.image = UIImage(named: "TrackersViewImage")
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(imageView)
+        
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
+    func configureImageLabel() {
+        if !view.subviews.contains(imageView) {
+            return
+        }
+        
+        imageLabel.text = "Что будем отслеживать?"
+        imageLabel.font = UIFont.systemFont(ofSize: 12)
+        imageLabel.textColor = UIColor(named: "ViewForegroundColor")
+        
+        imageLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(imageLabel)
+        
+        NSLayoutConstraint.activate([
+            imageLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
+            imageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -178,7 +216,7 @@ extension TrackersController: UISearchBarDelegate {
         return true
     }
     
-    
+    // Вызывается при нажатии на кнопку "Отмена"
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         // Очищаем текст в поисковой строке
         searchBar.text = nil
@@ -190,14 +228,14 @@ extension TrackersController: UISearchBarDelegate {
         searchBar.showsCancelButton = false
     }
     
-    // Скрываем клавиатуру при нажатии на экран
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-    }
-    
     // Вызывается при нажатии на кнопку "Найти"
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // Скрываем клавиатуру
         searchBar.resignFirstResponder()
+    }
+    
+    // Скрываем клавиатуру при нажатии на экран
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 }
