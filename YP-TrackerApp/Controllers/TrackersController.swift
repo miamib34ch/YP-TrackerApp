@@ -156,8 +156,7 @@ class TrackersController: UIViewController {
     }
     
     @objc func selectDate() {
-        //меняем цвет фона datePicker, поскольку каждый раз при выборе новой даты он отрисовывается с параметрами по-умолчанию
-        datePickerBackgroundView.backgroundColor = UIColor(named: "DatePickerBackgroundColor")
+
     }
     
     @objc func calendarOpenedClosed() {
