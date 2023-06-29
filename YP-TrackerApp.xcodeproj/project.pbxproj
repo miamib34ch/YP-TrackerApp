@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		8B1C592D2A180250006C0F13 /* ScheduleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1C592C2A180250006C0F13 /* ScheduleController.swift */; };
 		8B27FADC29F9A887009F0DF2 /* StatsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B27FADB29F9A887009F0DF2 /* StatsController.swift */; };
-		8B27FADE29F9A8D1009F0DF2 /* TrackersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B27FADD29F9A8D1009F0DF2 /* TrackersController.swift */; };
+		8B27FADE29F9A8D1009F0DF2 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B27FADD29F9A8D1009F0DF2 /* TrackersViewController.swift */; };
 		8B466C1C2A4C836000E12863 /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B466C1B2A4C836000E12863 /* UIDevice+Extension.swift */; };
 		8B90E8F829F98FBD00F7D996 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B90E8F729F98FBD00F7D996 /* AppDelegate.swift */; };
 		8B90E8FA29F98FBD00F7D996 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B90E8F929F98FBD00F7D996 /* SceneDelegate.swift */; };
@@ -31,7 +31,7 @@
 /* Begin PBXFileReference section */
 		8B1C592C2A180250006C0F13 /* ScheduleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleController.swift; sourceTree = "<group>"; };
 		8B27FADB29F9A887009F0DF2 /* StatsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsController.swift; sourceTree = "<group>"; };
-		8B27FADD29F9A8D1009F0DF2 /* TrackersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersController.swift; sourceTree = "<group>"; };
+		8B27FADD29F9A8D1009F0DF2 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
 		8B27FAE529FA76FA009F0DF2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B27FAE929FA77C6009F0DF2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ru; path = ru.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B466C1B2A4C836000E12863 /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				8B90E8FB29F98FBD00F7D996 /* TabBarController.swift */,
-				8B27FADD29F9A8D1009F0DF2 /* TrackersController.swift */,
+				8B27FADD29F9A8D1009F0DF2 /* TrackersViewController.swift */,
 				8B27FADB29F9A887009F0DF2 /* StatsController.swift */,
 				8BEDA6FB2A018EC20029B2DC /* TrackerTypeController.swift */,
 				8BEDA6FD2A02A8F90029B2DC /* CreateTrackerController.swift */,
@@ -211,7 +211,7 @@
 				8BEDA6FC2A018EC20029B2DC /* TrackerTypeController.swift in Sources */,
 				8B466C1C2A4C836000E12863 /* UIDevice+Extension.swift in Sources */,
 				8BFC40A02A4C68630004E81B /* EmojiAndColorCell.swift in Sources */,
-				8B27FADE29F9A8D1009F0DF2 /* TrackersController.swift in Sources */,
+				8B27FADE29F9A8D1009F0DF2 /* TrackersViewController.swift in Sources */,
 				8BEDA6FE2A02A8F90029B2DC /* CreateTrackerController.swift in Sources */,
 				8B1C592D2A180250006C0F13 /* ScheduleController.swift in Sources */,
 				8BFC409E2A4B34450004E81B /* CreateCategoryController.swift in Sources */,

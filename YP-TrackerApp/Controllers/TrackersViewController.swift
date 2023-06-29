@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TrackersController: UIViewController {
+class TrackersViewController: UIViewController {
     
     let addTrackerButton = UIButton()
     let mainLabel = UILabel()
@@ -231,7 +231,7 @@ class TrackersController: UIViewController {
 }
 
 // MARK: - UISearchBarDelegate
-extension TrackersController: UISearchBarDelegate {
+extension TrackersViewController: UISearchBarDelegate {
     
     // Вызывается каждый раз, когда пользователь изменяет текст
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
