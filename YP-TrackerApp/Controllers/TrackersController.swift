@@ -9,14 +9,21 @@ import UIKit
 
 class TrackersController: UIViewController {
     
-    let button = UIButton()
+    let addTrackerButton = UIButton()
     let mainLabel = UILabel()
     let datePicker = UIDatePicker()
     let searchBar = UISearchBar()
-    
     let imageView = UIImageView()
     let imageLabel = UILabel()
-
+    //let collection = UICollectionView()
+    //let filtersButton = UIButton()
+    
+    var allTrackers: [Tracker] = []
+    var categories: [TrackerCategory] = []
+    var completedTrackers: [TrackerRecord] = []
+    var currentDate: Date = Date()
+    //var visibleCategories: [TrackerCategory] = []
+    
     var datePickerBackgroundView: UIView {
         get { datePicker.subviews[0].subviews[0].subviews[0] }
     }
@@ -34,45 +41,53 @@ class TrackersController: UIViewController {
         super.viewDidLayoutSubviews()
         //меняем цвет фона datePicker, поскольку каждый раз при открытии вью он отрисовывается с параметрами по-умолчанию
         //метод выбран, потому что вью уже отрисовано и можно менять цвет
-        datePickerBackgroundView.backgroundColor = UIColor(named: "DatePickerBackgroundColor")
+        datePickerBackgroundView.backgroundColor = UIColor(named: "#F0F0F0")
     }
     
-    
+    // MARK: - configure methods
     func configureView() {
-        view.backgroundColor = UIColor(named: "ViewBackgroundColor")
-        configureButton()
+        view.backgroundColor = UIColor(named: "MainBackgroundColor")
+        configureAddTrackerButton()
         configureMainLabel()
         configureDatePicker()
         configureSearchTextField()
-        configureImage()
-        configureImageLabel()
+        
+        if (categories.count == 0) {
+            configureImage()
+            configureImageLabel()
+        }
+        else {
+            configureCollection()
+            configureFiltersButton()
+        }
+        
     }
     
-    func configureButton() {
-        button.setImage(UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 16, weight: .bold, scale: .large)), for: .normal)
-        button.tintColor = UIColor(named: "ViewForegroundColor")
-        button.addTarget(self, action: #selector(newTracker), for: .touchUpInside)
+    func configureAddTrackerButton() {
+        addTrackerButton.setImage(UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 16, weight: .bold, scale: .large)), for: .normal)
+        addTrackerButton.tintColor = UIColor(named: "MainForegroundColor")
+        addTrackerButton.addTarget(self, action: #selector(newTracker), for: .touchUpInside)
         
-        button.translatesAutoresizingMaskIntoConstraints = false
+        addTrackerButton.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(button)
+        view.addSubview(addTrackerButton)
         
         NSLayoutConstraint.activate([
-            button.heightAnchor.constraint(equalToConstant: 42),
-            button.widthAnchor.constraint(equalToConstant: 42),
+            addTrackerButton.heightAnchor.constraint(equalToConstant: 42),
+            addTrackerButton.widthAnchor.constraint(equalToConstant: 42),
             
-            button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 6),
-            button.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
+            addTrackerButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 6),
+            addTrackerButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
         ])
     }
     
     func configureMainLabel() {
-        if !view.subviews.contains(button) {
+        if !view.subviews.contains(addTrackerButton) {
             return
         }
         
         mainLabel.text = "Трекеры"
-        mainLabel.textColor = UIColor(named: "ViewForegroundColor")
+        mainLabel.textColor = UIColor(named: "MainForegroundColor")
         mainLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         
         mainLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -81,7 +96,7 @@ class TrackersController: UIViewController {
         
         NSLayoutConstraint.activate([
             mainLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            mainLabel.topAnchor.constraint(equalTo: button.safeAreaLayoutGuide.bottomAnchor, constant: 1)
+            mainLabel.topAnchor.constraint(equalTo: addTrackerButton.safeAreaLayoutGuide.bottomAnchor, constant: 1)
         ])
     }
     
@@ -94,15 +109,15 @@ class TrackersController: UIViewController {
         datePicker.datePickerMode = .date
         
         // Устанавливаем цвет фона подложки выбранной даты
-        datePickerBackgroundView.backgroundColor = UIColor(named: "DatePickerBackgroundColor")
+        datePickerBackgroundView.backgroundColor = UIColor(named: "#F0F0F0")
         
         // Измененяем цвет текста
-        datePickerTextLabel?.textColor = UIColor(named: "DatePickerTextColor")
-
+        datePickerTextLabel?.textColor = UIColor(named: "#1A1B22")
+        
         // Также добавляем изменение цвета текста на момент, когда календарь открывается и закрывается, потому что лейбл отрисовывается заново с начальными параметрами
         datePicker.addTarget(self, action: #selector(calendarOpenedClosed), for: .editingDidBegin)
         datePicker.addTarget(self, action: #selector(calendarOpenedClosed), for: .editingDidEnd)
-
+        
         datePicker.addTarget(self, action: #selector(selectDate), for: .valueChanged)
         
         datePicker.translatesAutoresizingMaskIntoConstraints = false
@@ -126,7 +141,7 @@ class TrackersController: UIViewController {
         searchBar.searchBarStyle = .minimal
         
         // Настроим цвет картинки внутри поля поиска
-        let searchBarImage = UIImage(systemName: "magnifyingglass")?.withTintColor(UIColor(named: "SearchBarColor") ?? UIColor.gray,
+        let searchBarImage = UIImage(systemName: "magnifyingglass")?.withTintColor(UIColor(named: "#AEAFB4") ?? UIColor.gray,
                                                                                    renderingMode: .alwaysOriginal)
         searchBar.setImage(searchBarImage,
                            for: .search,
@@ -139,6 +154,8 @@ class TrackersController: UIViewController {
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "Поиск",
                                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "SearchBarColor") ?? UIColor.gray,
                                                                                           NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)])
+        
+        searchBar.returnKeyType = .go
         
         searchBar.delegate = self
         
@@ -169,7 +186,7 @@ class TrackersController: UIViewController {
             imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
-
+    
     func configureImageLabel() {
         if !view.subviews.contains(imageView) {
             return
@@ -177,7 +194,7 @@ class TrackersController: UIViewController {
         
         imageLabel.text = "Что будем отслеживать?"
         imageLabel.font = UIFont.systemFont(ofSize: 12)
-        imageLabel.textColor = UIColor(named: "ViewForegroundColor")
+        imageLabel.textColor = UIColor(named: "MainForegroundColor")
         
         imageLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -189,20 +206,31 @@ class TrackersController: UIViewController {
         ])
     }
     
-    @objc func newTracker() {
+    func configureCollection() {
         
     }
     
+    func configureFiltersButton() {
+        
+    }
+    
+    // MARK: - objc methods
+    @objc func newTracker() {
+        let trackerTypeController = TrackerTypeController()
+        present(trackerTypeController, animated: true)
+    }
+    
     @objc func selectDate() {
-
+        
     }
     
     @objc func calendarOpenedClosed() {
         //меняем цвет текста datePicker, поскольку каждый раз при открытии и закрытии календаря он отрисовывается с параметрами по-умолчанию
-        datePickerTextLabel?.textColor = UIColor(named: "DatePickerTextColor")
+        datePickerTextLabel?.textColor = UIColor(named: "#1A1B22")
     }
 }
 
+// MARK: - UISearchBarDelegate
 extension TrackersController: UISearchBarDelegate {
     
     // Вызывается каждый раз, когда пользователь изменяет текст
@@ -212,7 +240,7 @@ extension TrackersController: UISearchBarDelegate {
         let searchText = (searchBar.text as NSString?)?.replacingCharacters(in: range, with: text) ?? ""
         searchBar.showsCancelButton = !searchText.isEmpty
         
-    
+        
         return true
     }
     

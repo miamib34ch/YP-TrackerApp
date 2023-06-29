@@ -11,11 +11,13 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let trackersController = TrackersController()
         let statsController = StatsController()
+        viewControllers = [trackersController, statsController]
+        
         configureTabBarItems(trackersController, "Трекеры", UIImage(named: "TrackersLogo"))
         configureTabBarItems(statsController, "Статистика", UIImage(named: "StatsLogo"))
-        self.viewControllers = [trackersController, statsController]
     }
 
     func configureTabBarItems(_ controller: UIViewController, _ title: String, _ image: UIImage?) {
@@ -23,4 +25,3 @@ class TabBarController: UITabBarController {
     }
     
 }
-
