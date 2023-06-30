@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MyTextField: UITextField {
+final class MyTextField: UITextField {
     
     override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
         let originalRect = super.clearButtonRect(forBounds: bounds)

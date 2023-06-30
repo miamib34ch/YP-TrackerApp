@@ -52,4 +52,5 @@ final class EmojiAndColorCell: UICollectionViewCell {
         label.layer.cornerRadius = 8
         label.layer.masksToBounds = true
     }
+    
 }

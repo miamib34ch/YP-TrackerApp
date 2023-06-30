@@ -7,7 +7,13 @@
 
 import UIKit
 
-class TrackersViewController: UIViewController {
+protocol TrackersViewProtocol {
+    
+    var categories: [TrackerCategory] { get set }
+    
+}
+
+class TrackersViewController: UIViewController, TrackersViewProtocol {
     
     let addTrackerButton = UIButton()
     let mainLabel = UILabel()
@@ -18,11 +24,10 @@ class TrackersViewController: UIViewController {
     //let collection = UICollectionView()
     //let filtersButton = UIButton()
     
-    var allTrackers: [Tracker] = []
-    var categories: [TrackerCategory] = []
+    var categories: [TrackerCategory] = [TrackerCategory(name: "Важное", trackers: []), TrackerCategory(name: "Неважное", trackers: []), TrackerCategory(name: "Тест", trackers: [])]
     var completedTrackers: [TrackerRecord] = []
     var currentDate: Date = Date()
-    //var visibleCategories: [TrackerCategory] = []
+    var visibleCategories: [TrackerCategory] = []
     
     var datePickerBackgroundView: UIView {
         get { datePicker.subviews[0].subviews[0].subviews[0] }
@@ -30,7 +35,6 @@ class TrackersViewController: UIViewController {
     var datePickerTextLabel: UILabel? {
         get { datePicker.subviews[0].subviews[0].subviews[1].subviews.first as? UILabel }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -217,6 +221,7 @@ class TrackersViewController: UIViewController {
     // MARK: - objc methods
     @objc func newTracker() {
         let trackerTypeController = TrackerTypeController()
+        trackerTypeController.trackerView = self
         present(trackerTypeController, animated: true)
     }
     

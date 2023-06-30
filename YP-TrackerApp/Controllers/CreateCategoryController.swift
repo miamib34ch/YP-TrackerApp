@@ -6,7 +6,8 @@
 //
 
 import UIKit
-class CreateCategoryController: UIViewController {
+
+final class CreateCategoryController: UIViewController {
     
     let label = UILabel()
     let textField = MyTextField()
@@ -30,12 +31,21 @@ class CreateCategoryController: UIViewController {
         view.backgroundColor = UIColor(named: "MainBackgroundColor")
         configureLabel()
         configureButton()
+        if let editingIndex = editingIndex {
+            makeButtonActive()
+        }
         configureTextField()
     }
     
     func configureLabel() {
         
-        label.text = "Новая категория"
+        if let editingIndex = editingIndex {
+            label.text = "Редактирование категории"
+        }
+        else {
+            label.text = "Новая категория"
+        }
+        
         label.textColor = UIColor(named: "MainForegroundColor")
         label.font = UIFont.systemFont(ofSize: 16)
         label.textAlignment = .center
@@ -94,14 +104,32 @@ class CreateCategoryController: UIViewController {
         
         if let editingIndex = editingIndex {
             cat.categories[editingIndex] = newCategory
+            
+            cat.createTrackerController!.trackerView!.categories[editingIndex] = TrackerCategory(name: newCategory, trackers:  cat.createTrackerController?.trackerView?.categories[editingIndex].trackers ?? [])
+            
+            cat.createTrackerController?.setTableSubnames()
+
         }
         else {
             cat.categories.append(newCategory)
             cat.selectedCategory = cat.categories.count-1
-        }
+            
+            cat.createTrackerController?.trackerView?.categories.append(TrackerCategory(name: newCategory, trackers: []))
+            cat.createTrackerController?.selectedCategory = newCategory
+            cat.createTrackerController?.tableSubnames[0] = newCategory
+            cat.createTrackerController?.setTableSubnames()
 
+        }
+        
         cat.updateTable()
         dismiss(animated: true)
+        
+        if let editingIndex = editingIndex {
+            
+        }
+        else {
+            cat.dismiss(animated: true)
+        }
     }
     
     func configureTextField() {

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TabBarController: UITabBarController {
+final class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +20,7 @@ class TabBarController: UITabBarController {
         configureTabBarItems(statsController, "Статистика", UIImage(named: "StatsLogo"))
     }
 
-    func configureTabBarItems(_ controller: UIViewController, _ title: String, _ image: UIImage?) {
+    private func configureTabBarItems(_ controller: UIViewController, _ title: String, _ image: UIImage?) {
         controller.tabBarItem = UITabBarItem(title: title, image: image, selectedImage: nil)
     }
     

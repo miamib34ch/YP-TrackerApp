@@ -5,23 +5,50 @@
 //  Created by Богдан Полыгалов on 27.06.2023.
 //
 
+// Рефакторинг
+
 import UIKit
 
-class CategoryController: UIViewController {
+final class CategoryController: UIViewController, CreateTrackerDelegate {
+    
+    var createTrackerController: CreateTrackerProtocol?
     
     let label = UILabel()
     let button = UIButton()
     var table = UITableView()
-    var categories: [String] = ["Важное","Неважное","Тест","Важное"]
+    var categories: [String] = []
     var selectedCategory: Int?
-    
     let imageView = UIImageView()
     let imageLabel = UILabel()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard let trackerCategories = createTrackerController?.trackerView?.categories else { return }
+        for trackerCategory in trackerCategories {
+            categories.append(trackerCategory.name)
+            
+            if let beforeSelectedCategory = createTrackerController?.selectedCategory {
+                if trackerCategory.name == beforeSelectedCategory{
+                    selectedCategory = categories.count-1
+                }
+            }
+        }
+        
         configureView()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        guard let selectedCategory = selectedCategory else { return }
+        
+        if createTrackerController?.selectedCategory != categories[selectedCategory] {
+            createTrackerController?.selectedCategory = categories[selectedCategory]
+            createTrackerController?.tableSubnames[0] = categories[selectedCategory]
+            createTrackerController?.setTableSubnames()
+        }
     }
     
     func updateTable() {
@@ -263,6 +290,9 @@ extension CategoryController: UITableViewDelegate {
             
             if indexPath.row == self.selectedCategory {
                 self.selectedCategory = nil
+                self.createTrackerController?.selectedCategory = nil
+                self.createTrackerController?.tableSubnames[0] = ""
+                self.createTrackerController?.setTableSubnames()
             }
             else {
                 if indexPath.row < (self.selectedCategory ?? 0) {
@@ -271,6 +301,7 @@ extension CategoryController: UITableViewDelegate {
             }
             
             self.categories.remove(at: indexPath.row)
+            self.createTrackerController?.trackerView?.categories.remove(at: indexPath.row)
             
             self.table.reloadData()
             if self.categories.count == 0 {
@@ -278,7 +309,7 @@ extension CategoryController: UITableViewDelegate {
                 self.configureImage()
                 self.configureImageLabel()
             }
-
+            
         }
         
         let cancelAction = UIAlertAction(title: "Отмена", style: .cancel) { _ in }
@@ -297,13 +328,11 @@ extension CategoryController: UITableViewDelegate {
         (selectedBeforeCell.accessoryView as? UIImageView)?.image = nil
         
         selectedCategory = indexPath.row
+        createTrackerController?.selectedCategory = cell.textLabel?.text
+        createTrackerController?.tableSubnames[0] = cell.textLabel?.text ?? ""
+        createTrackerController?.setTableSubnames()
         
-        var checkmarkView = cell.accessoryView as? UIImageView
-        checkmarkView?.image =  UIImage(systemName: "checkmark")
-        checkmarkView?.tintColor = UIColor(named: "#3771E7")
-        
+        dismiss(animated: true)
     }
     
-    
 }
-

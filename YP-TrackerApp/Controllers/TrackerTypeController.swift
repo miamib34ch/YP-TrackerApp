@@ -7,25 +7,24 @@
 
 import UIKit
 
-class TrackerTypeController: UIViewController {
+final class TrackerTypeController: UIViewController {
     
-    let habitButton = UIButton()
-    let irregularEventButton = UIButton()
-    let label = UILabel()
+    private let habitButton = UIButton()
+    private let irregularEventButton = UIButton()
+    private let label = UILabel()
+    
+    var trackerView: TrackersViewProtocol?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView()
-    }
-    
-    func configureView() {
+        
         view.backgroundColor = UIColor(named: "MainBackgroundColor")
         configureButtons()
         configureLabel()
     }
     
-    func configureButtons() {
+    private func configureButtons() {
         habitButton.backgroundColor = UIColor(named: "MainForegroundColor")
         habitButton.layer.cornerRadius = 16
         habitButton.layer.masksToBounds = true
@@ -71,7 +70,7 @@ class TrackerTypeController: UIViewController {
         ])
     }
     
-    func configureLabel() {
+    private func configureLabel() {
         label.text = "Создание трекера"
         label.textColor = UIColor(named: "MainForegroundColor")
         label.font = UIFont.systemFont(ofSize: 16)
@@ -87,17 +86,28 @@ class TrackerTypeController: UIViewController {
         ])
     }
     
-    @objc func newHabit() {
+    @objc private func newHabit() {
+        guard let trackerView = trackerView else { return }
+        
         let createTrackerController = CreateTrackerController()
+        createTrackerController.trackerTypeView = self
+        createTrackerController.trackerView = trackerView
         createTrackerController.mainLabel.text = "Новая привычка"
+        
         present(createTrackerController, animated: true)
     }
     
-    @objc func newIrregularEvent() {
+    @objc private func newIrregularEvent() {
+        guard let trackerView = trackerView else { return }
+        
         let createTrackerController = CreateTrackerController()
+        createTrackerController.trackerTypeView = self
+        createTrackerController.trackerView = trackerView
         createTrackerController.mainLabel.text = "Новое нерегулярное событие"
         createTrackerController.tableHeight = createTrackerController.tableHeight/2
         createTrackerController.tableNumberRawsInSections = 1
+        
         present(createTrackerController, animated: true)
     }
+    
 }

@@ -7,7 +7,8 @@
 
 import UIKit
 
-class ScheduleController: UIViewController {
+class ScheduleController: UIViewController, CreateTrackerDelegate {
+    var createTrackerController: CreateTrackerProtocol?
     
     let label = UILabel()
     let button = UIButton()
