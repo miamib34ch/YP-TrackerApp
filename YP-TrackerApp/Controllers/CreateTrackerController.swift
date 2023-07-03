@@ -365,7 +365,6 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
             }
         }
         trackerView?.categories = updatedCategories
-        print (trackerView?.categories)
         dismiss(animated: true)
         trackerTypeView?.dismiss(animated: true)
     }
