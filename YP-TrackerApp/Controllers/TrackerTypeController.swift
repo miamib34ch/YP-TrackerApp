@@ -24,6 +24,12 @@ final class TrackerTypeController: UIViewController {
         configureLabel()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        trackerView?.datePickerBackgroundView.backgroundColor = UIColor(named: "#F0F0F0")
+    }
+    
     private func configureButtons() {
         habitButton.backgroundColor = UIColor(named: "MainForegroundColor")
         habitButton.layer.cornerRadius = 16

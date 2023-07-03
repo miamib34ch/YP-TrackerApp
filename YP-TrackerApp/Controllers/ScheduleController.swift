@@ -15,8 +15,6 @@ class ScheduleController: UIViewController, CreateTrackerDelegate {
     var table = UITableView()
     var switchViews: [UISwitch?] = []
     var daysOfWeek = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
-    var switchStates = [Bool](repeating: false, count: 7)
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +28,14 @@ class ScheduleController: UIViewController, CreateTrackerDelegate {
         for switchView in switchViews {
             switchView?.layer.sublayers?[0].sublayers?[0].backgroundColor = UIColor(named: "#E6E8EB")?.cgColor
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        var createTrackerController = createTrackerController ?? CreateTrackerController()
+        createTrackerController.tableSubnames[1] = createSubname()
+        createTrackerController.setTableSubnames()
     }
     
     func configureView() {
@@ -82,7 +88,51 @@ class ScheduleController: UIViewController, CreateTrackerDelegate {
     }
     
     @objc func buttonTap() {
-        
+        var createTrackerController = createTrackerController ?? CreateTrackerController()
+        createTrackerController.tableSubnames[1] = createSubname()
+        createTrackerController.setTableSubnames()
+        dismiss(animated: true)
+    }
+    
+    func createSubname() -> String {
+        guard let createTrackerController = createTrackerController else { return "" }
+        let indices = createTrackerController.selectedShedule.indices
+        var days: [String] = []
+        for index in indices {
+            if createTrackerController.selectedShedule[index] == true {
+                switch index {
+                case 0:
+                    days.append("Пн")
+                case 1:
+                    days.append("Вт")
+                case 2:
+                    days.append("Ср")
+                case 3:
+                    days.append("Чт")
+                case 4:
+                    days.append("Пт")
+                case 5:
+                    days.append("Сб")
+                case 6:
+                    days.append("Вс")
+                default:
+                    break
+                }
+            }
+        }
+        if days.count == 7 {
+            return "Каждый день"
+        }
+        else {
+            var subname = ""
+            for day in days {
+                subname += day
+                if day != days[days.count - 1] {
+                    subname += ", "
+                }
+            }
+            return subname
+        }
     }
     
     func configureTable() {
@@ -136,7 +186,7 @@ extension ScheduleController: UITableViewDataSource {
         
         
         switchView.onTintColor = UIColor(named: "#3772E7")
-        switchView.isOn = switchStates[indexPath.row]
+        switchView.isOn = createTrackerController?.selectedShedule[indexPath.row] ?? false
         switchView.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
         cell.accessoryView = switchView
         
@@ -176,7 +226,7 @@ extension ScheduleController: UITableViewDelegate {
             return
         }
         
-        switchStates[indexPath.row] = sender.isOn
+        createTrackerController?.selectedShedule[indexPath.row] = sender.isOn
         // Здесь вы можете выполнить необходимые действия при изменении состояния переключателя
     }
 }

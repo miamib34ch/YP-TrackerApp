@@ -10,6 +10,7 @@ import UIKit
 protocol TrackersViewProtocol {
     
     var categories: [TrackerCategory] { get set }
+    var datePickerBackgroundView: UIView { get }
     
 }
 

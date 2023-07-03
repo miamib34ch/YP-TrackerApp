@@ -18,7 +18,7 @@ protocol CreateTrackerProtocol {
     var mainLabel: UILabel { get }
     var tableHeight: CGFloat { get set }
     var tableNumberRawsInSections: Int { get set }
-    var selectedShedule: [Bool]? { get set }
+    var selectedShedule: [Bool] { get set }
     var selectedCategory: String? { get set }
     var tableSubnames: [String] { get set }
     var selectedEmoji: String? { get set } // сделать его выбор при редактировании
@@ -77,7 +77,7 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
     
     var selectedEmoji: String?
     var selectedColor: UIColor?
-    var selectedShedule: [Bool]?
+    var selectedShedule = [Bool](repeating: false, count: 7)
     var selectedCategory: String?
     
     
