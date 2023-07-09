@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 extension UIDevice {
     
     var modelName: String {

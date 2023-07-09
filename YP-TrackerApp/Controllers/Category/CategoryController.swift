@@ -5,21 +5,21 @@
 //  Created by Богдан Полыгалов on 27.06.2023.
 //
 
-// Рефакторинг
-
 import UIKit
+
 
 final class CategoryController: UIViewController, CreateTrackerDelegate {
     
     var createTrackerController: CreateTrackerProtocol?
     
-    let label = UILabel()
-    let button = UIButton()
-    var table = UITableView()
     var categories: [String] = []
     var selectedCategory: Int?
-    let imageView = UIImageView()
-    let imageLabel = UILabel()
+    
+    private let label = UILabel()
+    private let button = UIButton()
+    private var table = UITableView()
+    private let imageView = UIImageView()
+    private let imageLabel = UILabel()
     
     
     override func viewDidLoad() {
@@ -51,32 +51,7 @@ final class CategoryController: UIViewController, CreateTrackerDelegate {
         }
     }
     
-    func updateTable() {
-        if view.contains(imageView) {
-            removeImageAndLabel()
-            configureTable()
-        }
-        table.reloadData()
-    }
-    
-    func removeTable() {
-        if !(view.contains(table)) {
-            return
-        }
-        
-        table.removeFromSuperview()
-    }
-    
-    func removeImageAndLabel() {
-        if !(view.contains(imageView) && view.contains(imageLabel)) {
-            return
-        }
-        
-        imageView.removeFromSuperview()
-        imageLabel.removeFromSuperview()
-    }
-    
-    func configureView() {
+    private func configureView() {
         view.backgroundColor = UIColor(named: "MainBackgroundColor")
         configureLabel()
         configureButton()
@@ -89,7 +64,7 @@ final class CategoryController: UIViewController, CreateTrackerDelegate {
         }
     }
     
-    func configureLabel() {
+    private func configureLabel() {
         
         label.text = "Категория"
         label.textColor = UIColor(named: "MainForegroundColor")
@@ -109,7 +84,7 @@ final class CategoryController: UIViewController, CreateTrackerDelegate {
         ])
     }
     
-    func configureButton() {
+    private func configureButton() {
         
         button.backgroundColor = UIColor(named: "MainForegroundColor")
         button.layer.cornerRadius = 16
@@ -131,13 +106,13 @@ final class CategoryController: UIViewController, CreateTrackerDelegate {
         ])
     }
     
-    @objc func buttonTap() {
+    @objc private func buttonTap() {
         let createCategoryController = CreateCategoryController()
-        createCategoryController.cat = self
+        createCategoryController.categoryController = self
         present (createCategoryController, animated: true)
     }
     
-    func configureTable() {
+    private func configureTable() {
         if !(view.contains(label) && view.contains(button)) {
             return
         }
@@ -164,7 +139,21 @@ final class CategoryController: UIViewController, CreateTrackerDelegate {
         ])
     }
     
-    func configureImage() {
+    func updateTable() {
+        if view.contains(imageView) {
+            removeImageAndLabel()
+            configureTable()
+        }
+        table.reloadData()
+    }
+    
+    private func removeTable() {
+        if !(view.contains(table)) { return }
+        
+        table.removeFromSuperview()
+    }
+    
+    private func configureImage() {
         imageView.image = UIImage(named: "TrackersViewImage")
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -177,7 +166,7 @@ final class CategoryController: UIViewController, CreateTrackerDelegate {
         ])
     }
     
-    func configureImageLabel() {
+    private func configureImageLabel() {
         if !view.subviews.contains(imageView) {
             return
         }
@@ -196,7 +185,17 @@ final class CategoryController: UIViewController, CreateTrackerDelegate {
         ])
     }
     
+    private func removeImageAndLabel() {
+        if !(view.contains(imageView) && view.contains(imageLabel)) { return }
+        
+        imageView.removeFromSuperview()
+        imageLabel.removeFromSuperview()
+    }
+    
 }
+
+
+// MARK: UITableView extensions
 
 extension CategoryController: UITableViewDataSource {
     
@@ -209,7 +208,6 @@ extension CategoryController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "categoryCell")
         cell.backgroundColor = UIColor(named: "ElementsBackgroundColor")
         cell.selectionStyle = .none
@@ -220,9 +218,8 @@ extension CategoryController: UITableViewDataSource {
         accessoryView.contentMode = .scaleAspectFit
         cell.accessoryView = accessoryView
         
-        //сделать чтобы не было несколько галочек при одинаковых названиях
         if indexPath.row == selectedCategory {
-            var checkmarkView = cell.accessoryView as? UIImageView
+            let checkmarkView = cell.accessoryView as? UIImageView
             checkmarkView?.image =  UIImage(systemName: "checkmark")
             checkmarkView?.tintColor = UIColor(named: "#3771E7")
         }
@@ -249,11 +246,12 @@ extension CategoryController: UITableViewDataSource {
         
         return cell
     }
+    
 }
 
 extension CategoryController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        
         tableView.cellForRow(at: indexPath)?.deleteSeperator()
         
         let editAction = UIAction(title: "Редактировать") { [weak self] _ in
@@ -277,7 +275,7 @@ extension CategoryController: UITableViewDelegate {
     
     func editItem(at indexPath: IndexPath) {
         let createCategoryController = CreateCategoryController()
-        createCategoryController.cat = self
+        createCategoryController.categoryController = self
         createCategoryController.textField.text = categories[indexPath.row]
         createCategoryController.editingIndex = indexPath.row
         present (createCategoryController, animated: true)
@@ -318,7 +316,6 @@ extension CategoryController: UITableViewDelegate {
         deleteConfirmationAlert.addAction(cancelAction)
         
         present(deleteConfirmationAlert, animated: true, completion: nil)
-        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

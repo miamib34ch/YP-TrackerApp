@@ -1,11 +1,12 @@
 //
-//  UITableCell+Extensions.swift
+//  UITableCell+Extension.swift
 //  YP-TrackerApp
 //
 //  Created by Богдан Полыгалов on 26.06.2023.
 //
 
 import UIKit
+
 
 extension UITableViewCell {
     

@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 final class TrackerTypeController: UIViewController {
     
     private let habitButton = UIButton()
@@ -28,6 +29,7 @@ final class TrackerTypeController: UIViewController {
         super.viewDidDisappear(animated)
         
         trackerView?.datePickerBackgroundView.backgroundColor = UIColor(named: "#F0F0F0")
+        trackerView?.updateCollection()
     }
     
     private func configureButtons() {

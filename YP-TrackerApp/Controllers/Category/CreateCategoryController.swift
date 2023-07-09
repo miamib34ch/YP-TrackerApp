@@ -7,39 +7,42 @@
 
 import UIKit
 
+
 final class CreateCategoryController: UIViewController {
     
-    let label = UILabel()
+    private let label = UILabel()
+    private let button = UIButton()
     let textField = MyTextField()
-    let button = UIButton()
     
     var editingIndex: Int?
-    var cat: CategoryController?
+    var categoryController: CategoryController?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureView()
     }
     
     // Скрываем клавиатуру при нажатии на экран
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
         view.endEditing(true)
     }
     
-    func configureView() {
+    private func configureView() {
         view.backgroundColor = UIColor(named: "MainBackgroundColor")
         configureLabel()
         configureButton()
-        if let editingIndex = editingIndex {
+        if editingIndex != nil {
             makeButtonActive()
         }
         configureTextField()
     }
     
-    func configureLabel() {
-        
-        if let editingIndex = editingIndex {
+    private func configureLabel() {
+        if editingIndex != nil {
             label.text = "Редактирование категории"
         }
         else {
@@ -60,8 +63,7 @@ final class CreateCategoryController: UIViewController {
         ])
     }
     
-    func configureButton() {
-        
+    private func configureButton() {
         makeButtonNoActive()
         
         button.layer.cornerRadius = 16
@@ -86,56 +88,51 @@ final class CreateCategoryController: UIViewController {
         
     }
     
-    func makeButtonActive() {
+    private func makeButtonActive() {
         button.isEnabled = true
         button.setTitleColor(UIColor(named: "MainBackgroundColor"), for: .normal)
         button.backgroundColor = UIColor(named: "MainForegroundColor")
     }
     
-    func makeButtonNoActive() {
+    private func makeButtonNoActive() {
         button.isEnabled = false
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor(named: "#AEAFB4")
     }
     
-    @objc func buttonTap() {
+    @objc private func buttonTap() {
         guard let newCategory = textField.text else { return }
-        guard let cat = cat else { return }
+        guard let categoryController = categoryController else { return }
         
         if let editingIndex = editingIndex {
-            cat.categories[editingIndex] = newCategory
+            categoryController.categories[editingIndex] = newCategory
             
-            cat.createTrackerController!.trackerView!.categories[editingIndex] = TrackerCategory(name: newCategory, trackers:  cat.createTrackerController?.trackerView?.categories[editingIndex].trackers ?? [])
+            categoryController.createTrackerController!.trackerView!.categories[editingIndex] = TrackerCategory(name: newCategory, trackers:  categoryController.createTrackerController?.trackerView?.categories[editingIndex].trackers ?? [])
             
-            cat.createTrackerController?.setTableSubnames()
-
+            categoryController.createTrackerController?.setTableSubnames()
+            
         }
         else {
-            cat.categories.append(newCategory)
-            cat.selectedCategory = cat.categories.count-1
+            categoryController.categories.append(newCategory)
+            categoryController.selectedCategory = categoryController.categories.count-1
             
-            cat.createTrackerController?.trackerView?.categories.append(TrackerCategory(name: newCategory, trackers: []))
-            cat.createTrackerController?.selectedCategory = newCategory
-            cat.createTrackerController?.tableSubnames[0] = newCategory
-            cat.createTrackerController?.setTableSubnames()
-
+            categoryController.createTrackerController?.trackerView?.categories.append(TrackerCategory(name: newCategory, trackers: []))
+            categoryController.createTrackerController?.selectedCategory = newCategory
+            categoryController.createTrackerController?.tableSubnames[0] = newCategory
+            categoryController.createTrackerController?.setTableSubnames()
+            
         }
         
-        cat.updateTable()
+        categoryController.updateTable()
         dismiss(animated: true)
         
-        if let editingIndex = editingIndex {
-            
-        }
-        else {
-            cat.dismiss(animated: true)
+        if editingIndex == nil {
+            categoryController.dismiss(animated: true)
         }
     }
     
-    func configureTextField() {
-        if !(view.contains(label)) {
-            return
-        }
+    private func configureTextField() {
+        if !(view.contains(label)) { return }
         
         textField.layer.cornerRadius = 16
         textField.layer.masksToBounds = true
@@ -169,6 +166,9 @@ final class CreateCategoryController: UIViewController {
     
 }
 
+
+// MARK: UITextField extension
+
 extension CreateCategoryController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -179,7 +179,6 @@ extension CreateCategoryController: UITextFieldDelegate {
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         
         let isLessThan1 = updatedText.count < 1
-        
         if isLessThan1  {
             makeButtonNoActive()
         }
@@ -195,4 +194,5 @@ extension CreateCategoryController: UITextFieldDelegate {
         
         return true
     }
+    
 }

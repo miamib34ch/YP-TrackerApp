@@ -7,9 +7,13 @@
 
 import UIKit
 
-protocol CreateTrackerDelegate {
+
+protocol CreateTrackerDelegate: AnyObject {
+    
     var createTrackerController: CreateTrackerProtocol? { get set }
+    
 }
+
 
 protocol CreateTrackerProtocol {
     
@@ -21,13 +25,14 @@ protocol CreateTrackerProtocol {
     var selectedShedule: [Bool] { get set }
     var selectedCategory: String? { get set }
     var tableSubnames: [String] { get set }
-    var selectedEmoji: String? { get set } // сделать его выбор при редактировании
-    var selectedColor: UIColor? { get set } // сделать его выбор при редактировании
+    var selectedEmoji: String? { get set }
+    var selectedColor: UIColor? { get set }
     var textField: MyTextField { get }
     
     func setTableSubnames()
     
 }
+
 
 final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
     
@@ -55,7 +60,7 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
     private let colorCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let sectionNames = ["Emoji", "Цвет"]
     private let emojies = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
-    private lazy var colors = {
+    private let colors = {
         let baseColorName = "Color "
         var colorStringArray: [String] = []
         (0...17).forEach { colorStringArray.append(baseColorName + String($0)) }
@@ -63,14 +68,14 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
         colorStringArray.forEach { colorsUIArray.append(UIColor(named: $0) ?? .gray) }
         return colorsUIArray
     }()
-    private lazy var selectedBackgroundViewForEmoji: UIView = {
+    private let selectedBackgroundViewForEmoji: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "ElementsBackgroundColor")
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         return view
     }()
-    private lazy var selectedBackgroundViewForColor: UIView = {
+    private let selectedBackgroundViewForColor: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.borderWidth = 3
@@ -87,8 +92,8 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "MainBackgroundColor")
         
+        view.backgroundColor = UIColor(named: "MainBackgroundColor")
         configureLabel()
         configureTextField()
         configureTable()
@@ -98,18 +103,14 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
         configureButtons()
     }
     
-    // Скрываем клавиатуру при нажатии на экран НЕ РАБОТАЕТ
+    // Скрываем клавиатуру при нажатии на экран
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
         view.endEditing(true)
     }
     
-    
-    
     private func configureLabel() {
-        //if (!view.contains(scrollView)) {
-        //  return
-        //}
-        
         mainLabel.textColor = UIColor(named: "MainForegroundColor")
         mainLabel.font = UIFont.systemFont(ofSize: 16)
         mainLabel.textAlignment = .center
@@ -128,9 +129,7 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
     }
     
     private func configureTextField() {
-        if /*(!(view.contains(scrollView) && */!view.contains(mainLabel) {
-            return
-        }
+        if !view.contains(mainLabel) { return }
         
         textField.layer.cornerRadius = 16
         textField.layer.masksToBounds = true
@@ -163,9 +162,7 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
     }
     
     private func configureWarningLabel() {
-        if /*(!(view.contains(scrollView) && */!view.contains(textField) {
-            return
-        }
+        if !view.contains(textField) { return }
         
         warningLabel.text = "Ограничение 38 символов"
         warningLabel.textColor = UIColor(named: "#F56B6C")
@@ -184,9 +181,7 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
     }
     
     private func configureTable() {
-        if /*(!(view.contains(scrollView) &&*/ !view.contains(textField) {
-            return
-        }
+        if !view.contains(textField) { return }
         
         table.separatorStyle = .none
         
@@ -208,7 +203,14 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
         ])
     }
     
+    func setTableSubnames() {
+        table.cellForRow(at: IndexPath(row: 0, section: 0))?.detailTextLabel?.text = tableSubnames[0]
+        table.cellForRow(at: IndexPath(row: 1, section: 0))?.detailTextLabel?.text = tableSubnames[1]
+        shouldCreationButtonBeActive()
+    }
+    
     private func configureScrollView() {
+        if !view.contains(table) { return }
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -217,15 +219,12 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: table.bottomAnchor, constant: 32),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 16),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -16)//,
-            //scrollView.heightAnchor.constraint(equalToConstant: 444)
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -16)
         ])
     }
     
     private func configureEmojiCollection() {
-        if  !view.contains(table) {
-            return
-        }
+        if  !view.contains(scrollView) { return }
         
         emojiCollectionView.backgroundColor = .clear
         
@@ -244,19 +243,11 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
             emojiCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             emojiCollectionView.heightAnchor.constraint(equalToConstant: 222),
             emojiCollectionView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
-            
-            /*
-             collectionView.topAnchor.constraint(equalTo: table.bottomAnchor, constant: 32),
-             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 16),
-             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -16),
-             collectionView.heightAnchor.constraint(equalToConstant: 444)*/
         ])
     }
     
     private func configureColorCollection() {
-        if  !view.contains(table) {
-            return
-        }
+        if  !view.contains(scrollView) && !view.contains(emojiCollectionView) { return }
         
         colorCollectionView.backgroundColor = .clear
         
@@ -276,31 +267,21 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
             colorCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             colorCollectionView.heightAnchor.constraint(equalToConstant: 222),
             colorCollectionView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
-            
-            /*
-             collectionView.topAnchor.constraint(equalTo: table.bottomAnchor, constant: 32),
-             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 16),
-             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -16),
-             collectionView.heightAnchor.constraint(equalToConstant: 444)*/
         ])
     }
     
     private func addWarningLabel() {
-        //view.contentSize = CGSize(width: view.contentSize.width, height: view.contentSize.height + 16)
         topConstraints.forEach(){ $0.constant += 38 }
         configureWarningLabel()
     }
     
     private func deleteWarningLabel() {
-        //scrollView.contentSize = CGSize(width: scrollView.contentSize.width, height: scrollView.contentSize.height - 16)
         topConstraints.forEach(){ $0.constant -= 38 }
         warningLabel.removeFromSuperview()
     }
     
     private func configureButtons() {
-        //if  !view.contains(collectionView) { //поменять на коллекцию
-        //  return
-        //}
+        if  !view.contains(scrollView) { return }
         
         cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         cancelButton.layer.cornerRadius = 16
@@ -347,16 +328,19 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
         ])
     }
     
-    @objc func cancelButtonTap() {
+    @objc private func cancelButtonTap() {
         dismiss(animated: true)
     }
     
-    @objc func createButtonTap() {
+    @objc private func createButtonTap() {
         var updatedCategories: [TrackerCategory] = []
-        var categories = trackerView?.categories ?? [TrackerCategory]()
+        let categories = trackerView?.categories ?? [TrackerCategory]()
         for categorie in categories {
             if categorie.name == selectedCategory {
                 var trackers = categorie.trackers
+                if tableNumberRawsInSections == 1 {
+                    selectedShedule = [Bool](repeating: true, count: 7)
+                }
                 trackers.append(Tracker(id: UUID().uuidString, name: textField.text ?? "", color: selectedColor ?? .black, emoji: selectedEmoji ?? "", shedule: selectedShedule))
                 updatedCategories.append(TrackerCategory(name: selectedCategory ?? "", trackers: trackers))
             }
@@ -381,12 +365,6 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
             createButton.backgroundColor = UIColor(named: "#AEAFB4")
         }
         
-    }
-    
-    func setTableSubnames() {
-        table.cellForRow(at: IndexPath(row: 0, section: 0))?.detailTextLabel?.text = tableSubnames[0]
-        table.cellForRow(at: IndexPath(row: 1, section: 0))?.detailTextLabel?.text = tableSubnames[1]
-        shouldCreationButtonBeActive()
     }
     
 }
@@ -462,11 +440,11 @@ extension CreateTrackerController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            var categoryController = CategoryController()
+            let categoryController = CategoryController()
             categoryController.createTrackerController = self
             present(categoryController, animated: true)
         case 1:
-            var scheduleController = ScheduleController()
+            let scheduleController = ScheduleController()
             scheduleController.createTrackerController = self
             present(scheduleController, animated: true)
         default:
@@ -479,7 +457,7 @@ extension CreateTrackerController: UITableViewDelegate {
 extension CreateTrackerController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        tableNumberRawsInSections
+        return tableNumberRawsInSections
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -598,7 +576,7 @@ extension CreateTrackerController: UICollectionViewDelegateFlowLayout {
 extension CreateTrackerController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        1
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -610,7 +588,6 @@ extension CreateTrackerController: UICollectionViewDataSource {
         default:
             return 0
         }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

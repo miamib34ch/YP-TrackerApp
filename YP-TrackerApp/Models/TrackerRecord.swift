@@ -5,13 +5,12 @@
 //  Created by Богдан Полыгалов on 02.05.2023.
 //
 
-
-
 import Foundation
 
-struct TrackerRecord {
+
+struct TrackerRecord: Hashable {
     
-    let idTracker: Int
+    let idTracker: String
     let date: Date
     
 }

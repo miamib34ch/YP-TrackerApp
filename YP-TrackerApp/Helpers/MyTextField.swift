@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 final class MyTextField: UITextField {
     
     override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
@@ -22,6 +23,7 @@ final class MyTextField: UITextField {
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        super.editingRect(forBounds: bounds)
         
         return self.textRect(forBounds: bounds)
     }

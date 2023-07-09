@@ -7,22 +7,27 @@
 
 import UIKit
 
-class ScheduleController: UIViewController, CreateTrackerDelegate {
+
+final class ScheduleController: UIViewController, CreateTrackerDelegate {
+    
     var createTrackerController: CreateTrackerProtocol?
     
-    let label = UILabel()
-    let button = UIButton()
-    var table = UITableView()
-    var switchViews: [UISwitch?] = []
-    var daysOfWeek = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
+    private let label = UILabel()
+    private let button = UIButton()
+    private let table = UITableView()
+    private var switchViews: [UISwitch?] = []
+    private let daysOfWeek = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureView()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         //меняем цвет фона фона uiswitch, поскольку каждый раз при открытии вью он отрисовывается с параметрами по-умолчанию
         //метод выбран, потому что вью уже отрисовано и можно менять цвет
         for switchView in switchViews {
@@ -33,20 +38,17 @@ class ScheduleController: UIViewController, CreateTrackerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
-        var createTrackerController = createTrackerController ?? CreateTrackerController()
-        createTrackerController.tableSubnames[1] = createSubname()
-        createTrackerController.setTableSubnames()
+        stopEditing()
     }
     
-    func configureView() {
+    private func configureView() {
         view.backgroundColor = UIColor(named: "MainBackgroundColor")
         configureLabel()
         configureButton()
         configureTable()
     }
     
-    func configureLabel() {
-        
+    private func configureLabel() {
         label.text = "Расписание"
         label.textColor = UIColor(named: "MainForegroundColor")
         label.font = UIFont.systemFont(ofSize: 16)
@@ -65,8 +67,7 @@ class ScheduleController: UIViewController, CreateTrackerDelegate {
         ])
     }
     
-    func configureButton() {
-        
+    private func configureButton() {
         button.backgroundColor = UIColor(named: "MainForegroundColor")
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
@@ -87,14 +88,18 @@ class ScheduleController: UIViewController, CreateTrackerDelegate {
         ])
     }
     
-    @objc func buttonTap() {
-        var createTrackerController = createTrackerController ?? CreateTrackerController()
-        createTrackerController.tableSubnames[1] = createSubname()
-        createTrackerController.setTableSubnames()
+    @objc private func buttonTap() {
+        stopEditing()
         dismiss(animated: true)
     }
     
-    func createSubname() -> String {
+    private func stopEditing() {
+        var createTrackerController = createTrackerController ?? CreateTrackerController()
+        createTrackerController.tableSubnames[1] = createSubname()
+        createTrackerController.setTableSubnames()
+    }
+    
+    private func createSubname() -> String {
         guard let createTrackerController = createTrackerController else { return "" }
         let indices = createTrackerController.selectedShedule.indices
         var days: [String] = []
@@ -135,10 +140,8 @@ class ScheduleController: UIViewController, CreateTrackerDelegate {
         }
     }
     
-    func configureTable() {
-        if !(view.contains(label) && view.contains(button)) {
-            return
-        }
+    private func configureTable() {
+        if !(view.contains(label) && view.contains(button)) { return }
         
         table.separatorStyle = .none
         table.backgroundColor = .clear
@@ -162,6 +165,8 @@ class ScheduleController: UIViewController, CreateTrackerDelegate {
     
 }
 
+// MARK: UITableView extensions
+
 extension ScheduleController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -173,23 +178,17 @@ extension ScheduleController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = UITableViewCell()
         cell.backgroundColor = UIColor(named: "ElementsBackgroundColor")
         cell.selectionStyle = .none
         
         let switchView = UISwitch(frame: CGRect(x: 0, y: 0, width: table.frame.width - cell.contentView.frame.width, height: 15))
         switchViews.append(switchView)
-        
         switchView.layer.sublayers?[0].sublayers?[0].backgroundColor = UIColor(named: "#E6E8EB")?.cgColor
-        
-        
-        
         switchView.onTintColor = UIColor(named: "#3772E7")
         switchView.isOn = createTrackerController?.selectedShedule[indexPath.row] ?? false
         switchView.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
         cell.accessoryView = switchView
-        
         
         cell.textLabel?.text = daysOfWeek[indexPath.row]
         
@@ -214,19 +213,21 @@ extension ScheduleController: UITableViewDataSource {
             }
         }
         
-        
         return cell
     }
+    
 }
 
+
 extension ScheduleController: UITableViewDelegate {
-    @objc func switchChanged(_ sender: UISwitch) {
+    
+    @objc private func switchChanged(_ sender: UISwitch) {
         guard let cell = sender.superview as? UITableViewCell,
               let indexPath = table.indexPath(for: cell) else {
             return
         }
         
         createTrackerController?.selectedShedule[indexPath.row] = sender.isOn
-        // Здесь вы можете выполнить необходимые действия при изменении состояния переключателя
     }
+    
 }
