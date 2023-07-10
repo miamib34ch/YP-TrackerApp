@@ -247,7 +247,6 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     }
 
     func updateCollection() {
-        updateVisibleCategories()
         if !visibleCategories.isEmpty {
             if contains(imageView) && contains(imageLabel) {
                 removeImageAndLabel()
@@ -258,7 +257,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
             removeCollection()
             configureImage()
             configureImageLabel()
-            if currentDate != Calendar.current.startOfDay(for: Date()) {
+            if currentDate != Calendar.current.startOfDay(for: Date()) || !(searchBar.text ?? "").isEmpty {
                 imageView.image = UIImage(named: "NothingFound")
                 imageLabel.text = "Ничего не найдено"
             }
@@ -349,6 +348,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
 
     @objc private func selectDate() {
         currentDate = Calendar.current.startOfDay(for: datePicker.date)
+        updateVisibleCategories()
         updateCollection()
     }
 
@@ -371,6 +371,11 @@ extension TrackersViewController: UISearchBarDelegate {
         let searchText = (searchBar.text as NSString?)?.replacingCharacters(in: range, with: text) ?? ""
         searchBar.showsCancelButton = !searchText.isEmpty
 
+        if searchText.isEmpty {
+            updateVisibleCategories()
+            updateCollection()
+        }
+
         return true
     }
 
@@ -384,12 +389,33 @@ extension TrackersViewController: UISearchBarDelegate {
 
         // Скрываем кнопку отмены
         searchBar.showsCancelButton = false
+
+        updateVisibleCategories()
+        updateCollection()
     }
 
     // Вызывается при нажатии на кнопку "Найти"
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // Скрываем клавиатуру
         searchBar.resignFirstResponder()
+
+        updateVisibleCategories() // Все категории в visibleCategories по выбранной дате
+        let filterText = (searchBar.text ?? "").lowercased()
+        var newVisibleCategories: [TrackerCategory] = []
+        var newCategory: [Tracker] = []
+
+        for category in visibleCategories {
+            for tracker in category.trackers where tracker.name.lowercased().contains(filterText) {
+                newCategory.append(tracker)
+            }
+            if !newCategory.isEmpty {
+                newVisibleCategories.append(TrackerCategory(name: category.name, trackers: newCategory))
+            }
+            newCategory = []
+        }
+        
+        visibleCategories = newVisibleCategories
+        updateCollection()
     }
 
 }

@@ -27,6 +27,7 @@ final class TrackerTypeController: UIViewController {
         super.viewDidDisappear(animated)
 
         trackerView?.datePickerBackgroundView.backgroundColor = UIColor(named: "#F0F0F0")
+        trackerView?.updateVisibleCategories()
         trackerView?.updateCollection()
     }
 
