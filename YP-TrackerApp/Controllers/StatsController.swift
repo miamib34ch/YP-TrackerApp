@@ -7,17 +7,15 @@
 
 import UIKit
 
-
 final class StatsController: UIViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureView()
     }
-    
+
     private func configureView() {
         view.backgroundColor = UIColor(named: "MainBackgroundColor")
     }
-    
+
 }

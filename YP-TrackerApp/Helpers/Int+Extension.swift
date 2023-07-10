@@ -7,14 +7,13 @@
 
 import Foundation
 
-
 extension Int {
-    
+
     var days: String {
         if (11...14).contains(self % 100) {
             return String(self) + " дней"
         }
-        switch (self % 10) {
+        switch self % 10 {
         case 1:
             return String(self) + " день"
         case 2, 3, 4:
@@ -23,5 +22,5 @@ extension Int {
             return String(self) + " дней"
         }
     }
-    
+
 }

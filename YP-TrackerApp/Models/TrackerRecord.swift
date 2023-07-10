@@ -7,10 +7,9 @@
 
 import Foundation
 
-
 struct TrackerRecord: Hashable {
-    
-    let idTracker: String
+
+    let idTracker: UUID
     let date: Date
-    
+
 }
