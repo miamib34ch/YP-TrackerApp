@@ -352,12 +352,15 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
                 if tableNumberRawsInSections == 1 {
                     selectedShedule = [Bool](repeating: true, count: 7)
                 }
-                trackers.append(Tracker(id: UUID(),
-                                        name: textField.text ?? "",
-                                        color: selectedColor ?? .black,
-                                        emoji: selectedEmoji ?? "",
-                                        shedule: selectedShedule))
-                updatedCategories.append(TrackerCategory(name: selectedCategory ?? "", trackers: trackers))
+                let newTracker = Tracker(idTracker: UUID(),
+                                         name: textField.text ?? "",
+                                         color: selectedColor ?? .black,
+                                         emoji: selectedEmoji ?? "",
+                                         shedule: selectedShedule)
+                trackers.append(newTracker)
+                let newCategory = TrackerCategory(name: selectedCategory ?? "", trackers: trackers)
+                updatedCategories.append(newCategory)
+                DataProvider.shared.addTracker(tracker: newTracker, category: newCategory)
             } else {
                 updatedCategories.append(categorie)
             }

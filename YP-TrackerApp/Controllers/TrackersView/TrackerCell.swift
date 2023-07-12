@@ -85,7 +85,7 @@ final class TrackerCell: UICollectionViewCell {
     }
 
     func configureCell(with tracker: Tracker) {
-        trackerID = tracker.id
+        trackerID = tracker.idTracker
         colorView.backgroundColor = tracker.color
         emojiLabel.text = tracker.emoji
         trackerNameLabel.text = tracker.name

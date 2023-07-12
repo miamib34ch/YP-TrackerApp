@@ -29,7 +29,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     private let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     //private let filtersButton = UIButton()
 
-    var categories: [TrackerCategory] = []
+    var categories: [TrackerCategory] = DataProvider.shared.takeCategories()
     var completedTrackers = Set<TrackerRecord>()
     private var currentDate: Date = Date()
     var visibleCategories: [TrackerCategory] = []
@@ -241,7 +241,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
         NSLayoutConstraint.activate([
             collection.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 24),
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collection.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
+            collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collection.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
@@ -484,9 +484,9 @@ extension TrackersViewController: UICollectionViewDataSource {
                                                         for: indexPath) as? TrackerCell else { return UICollectionViewCell() }
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
         cell.configureCell(with: tracker)
-        let dayCounter = completedTrackers.filter { $0.idTracker == tracker.id }.count
+        let dayCounter = completedTrackers.filter { $0.idTracker == tracker.idTracker }.count
         cell.setDayCounterLabel(with: dayCounter)
-        if isCompletedOnCurrentDate(tracker.id) {
+        if isCompletedOnCurrentDate(tracker.idTracker) {
             cell.buttonSetCheckmark()
         } else {
             cell.buttonSetPlus()
