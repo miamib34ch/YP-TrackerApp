@@ -200,8 +200,12 @@ extension ScheduleController: UITableViewDataSource {
         }
         if indexPath.row != 0 {
             let modelName = UIDevice.current.modelName
-            if modelName == "iPhone SE" {
+            if modelName == "iPhone8,4" || modelName == "iPhone12,8" || modelName == "iPhone14,6" { // Model ID SE
                 cell.addSeperator(accessoryWidth: (cell.accessoryView?.frame.width ?? 0) - 30)
+            } else if modelName == "iPhone10,5" { // Model ID 8 plus
+                cell.addSeperator(accessoryWidth: (cell.accessoryView?.frame.width ?? 0) + 10)
+            } else if modelName == "iPhone13,4" { // Model ID 12 pro max
+                cell.addSeperator(accessoryWidth: (cell.accessoryView?.frame.width ?? 0) + 25)
             } else {
                 cell.addSeperator(accessoryWidth: (cell.accessoryView?.frame.width ?? 0) - 10)
             }
