@@ -8,9 +8,16 @@
 import Foundation
 import CoreData
 
+protocol DataProviderDelegate {
+    func updateTable()
+    func updateCollection()
+}
+
 final class DataProvider: NSObject {
 
     static let shared = DataProvider()
+
+    var delegate: DataProviderDelegate?
 
     private let trackerStore = TrackerStore()
     private let trackerCategoryStore = TrackerCategoryStore()
@@ -18,6 +25,7 @@ final class DataProvider: NSObject {
 
     private lazy var trackerFetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
         let fetchRequest = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(TrackerCoreData.name), ascending: false)]
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                   managedObjectContext: CoreDataStack.context,
                                                                   sectionNameKeyPath: nil,
@@ -28,6 +36,7 @@ final class DataProvider: NSObject {
     }()
     private lazy var trackerCategoryFetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData> = {
         let fetchRequest = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(TrackerCategoryCoreData.name), ascending: false)]
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                   managedObjectContext: CoreDataStack.context,
                                                                   sectionNameKeyPath: nil,
@@ -38,6 +47,7 @@ final class DataProvider: NSObject {
     }()
     private lazy var trackerRecordFetchedResultsController: NSFetchedResultsController<TrackerRecordCoreData> = {
         let fetchRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(TrackerRecordCoreData.date), ascending: false)]
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                   managedObjectContext: CoreDataStack.context,
                                                                   sectionNameKeyPath: nil,
@@ -81,5 +91,35 @@ final class DataProvider: NSObject {
 }
 
 extension DataProvider: NSFetchedResultsControllerDelegate {
+
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        switch controller {
+        case is NSFetchedResultsController<TrackerCoreData>:
+            print("yes")
+        case is NSFetchedResultsController<TrackerCategoryCoreData>:
+            print("no")
+        case is NSFetchedResultsController<TrackerRecordCoreData>:
+            print("oh no")
+        default:
+            break
+        }
+        print("works")
+        delegate?.updateCollection()
+    }
+
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        switch controller {
+        case is NSFetchedResultsController<TrackerCoreData>:
+            print("yes")
+        case is NSFetchedResultsController<TrackerCategoryCoreData>:
+            print("no")
+        case is NSFetchedResultsController<TrackerRecordCoreData>:
+            print("oh no")
+        default:
+            break
+        }
+        print("works")
+        delegate?.updateCollection()
+    }
 
 }
