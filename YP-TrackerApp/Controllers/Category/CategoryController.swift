@@ -292,6 +292,7 @@ extension CategoryController: UITableViewDelegate {
                 }
             }
 
+            DataProvider.shared.deleteCategory(categoryName: categories[indexPath.row])
             self.categories.remove(at: indexPath.row)
             self.createTrackerController?.trackerView?.categories.remove(at: indexPath.row)
 

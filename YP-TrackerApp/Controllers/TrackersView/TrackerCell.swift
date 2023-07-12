@@ -53,7 +53,7 @@ final class TrackerCell: UICollectionViewCell {
         return label
     }()
 
-    private let dayCounterButton: UIButton = {
+    private lazy var dayCounterButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 17

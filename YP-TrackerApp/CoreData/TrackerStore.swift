@@ -25,19 +25,19 @@ final class TrackerStore {
         categoryStore.addTrackerToCategory(tracker: trackerCoreData, category: category)
     }
 
-    /*func deleteTracker(id: UUID) {
+    func deleteTracker(id: UUID) {
         let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
-        //request.returnsObjectsAsFaults = false
         let predicate = NSPredicate(format: "%K == %@", #keyPath(TrackerCoreData.idTracker), id.uuidString)
         request.predicate = predicate
         do {
             let result = try CoreDataStack.context.fetch(request)
             guard let tracker = result.first else { return }
             CoreDataStack.context.delete(tracker)
-            try? CoreDataStack.context.save()
+            try CoreDataStack.saveContext()
         } catch {
-            print("TrackerStore.deleteTracker: bad request")
+            print("TrackerStore.deleteTracker: \(error)")
             return
         }
-    }*/
+    }
+
 }

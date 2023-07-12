@@ -70,6 +70,11 @@ final class TrackerCategoryStore {
             // Создаём новую
             let trackerCategoryCoreData = TrackerCategoryCoreData(context: CoreDataStack.context)
             trackerCategoryCoreData.name = category.name
+            do {
+                try CoreDataStack.saveContext()
+            } catch {
+                print("TrackerCategoryStore.addTrackerToCategory: save context - \(error)")
+            }
             trackerCategoryCoreData.addToTrackers(tracker)
         } else {
             // Добавляем трекер
@@ -80,6 +85,36 @@ final class TrackerCategoryStore {
             try CoreDataStack.saveContext()
         } catch {
             print("TrackerCategoryStore.addTrackerToCategory: save context - \(error)")
+        }
+    }
+
+    func deleteTrackerCategory(name: String) {
+        let request = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(TrackerCategoryCoreData.name), name)
+        request.predicate = predicate
+        do {
+            let result = try CoreDataStack.context.fetch(request)
+            guard let category = result.first else { return }
+            CoreDataStack.context.delete(category) // Трекеры удалятся каскадно
+            try CoreDataStack.saveContext()
+        } catch {
+            print("TrackerCategoryStore.deleteTrackerCategory: \(error)")
+            return
+        }
+    }
+
+    func editTrackerCategory(name: String, newName: String) {
+        let request = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
+        let predicate = NSPredicate(format: "%K == %@", #keyPath(TrackerCategoryCoreData.name), name)
+        request.predicate = predicate
+        do {
+            let result = try CoreDataStack.context.fetch(request)
+            guard let category = result.first else { return }
+            category.name = newName
+            try CoreDataStack.saveContext()
+        } catch {
+            print("TrackerCategoryStore.editTrackerCategory: \(error)")
+            return
         }
     }
 

@@ -134,6 +134,7 @@ final class CreateCategoryController: UIViewController {
         let trimmedNewCategory = newCategory.trimmingCharacters(in: NSCharacterSet.whitespaces)
 
         if let editingIndex = editingIndex {
+            DataProvider.shared.editCategory(categoryName: categoryController.categories[editingIndex], newCategoryName: trimmedNewCategory)
             categoryController.categories[editingIndex] = trimmedNewCategory
             trackerView.categories[editingIndex] = TrackerCategory(name: trimmedNewCategory,
                                                                    trackers: trackerView.categories[editingIndex].trackers)

@@ -30,7 +30,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     //private let filtersButton = UIButton()
 
     var categories: [TrackerCategory] = DataProvider.shared.takeCategories()
-    var completedTrackers = Set<TrackerRecord>()
+    var completedTrackers = DataProvider.shared.takeRecords()
     private var currentDate: Date = Date()
     var visibleCategories: [TrackerCategory] = []
 
@@ -324,12 +324,13 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     private func saveTrackerRecord(for trackerID: UUID) {
         let trackerRecord = TrackerRecord(idTracker: trackerID, date: currentDate)
         completedTrackers.insert(trackerRecord)
-
+        DataProvider.shared.createRecord(id: trackerID, date: currentDate)
     }
 
     private func deleteTrackerRecord(for trackerID: UUID) {
         let trackerRecord = TrackerRecord(idTracker: trackerID, date: currentDate)
         completedTrackers.remove(trackerRecord)
+        DataProvider.shared.deleteRecord(id: trackerID, date: currentDate)
     }
 
     private func reload(_ cell: TrackerCell) {
@@ -413,7 +414,7 @@ extension TrackersViewController: UISearchBarDelegate {
             }
             newCategory = []
         }
-        
+
         visibleCategories = newVisibleCategories
         updateCollection()
     }

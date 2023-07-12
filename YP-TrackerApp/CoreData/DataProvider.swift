@@ -58,6 +58,26 @@ final class DataProvider: NSObject {
         trackerStore.createTracker(tracker: tracker, category: category, categoryStore: trackerCategoryStore)
     }
 
+    func deleteCategory(categoryName: String) {
+        trackerCategoryStore.deleteTrackerCategory(name: categoryName)
+    }
+
+    func editCategory(categoryName: String, newCategoryName: String) {
+        trackerCategoryStore.editTrackerCategory(name: categoryName, newName: newCategoryName)
+    }
+
+    func createRecord(id: UUID, date: Date) {
+        trackerRecordStore.createTrackerRecord(id: id, date: date)
+    }
+
+    func deleteRecord(id: UUID, date: Date) {
+        trackerRecordStore.deleteTrackerRecord(id: id, date: date)
+    }
+
+    func takeRecords() -> Set<TrackerRecord> {
+        return trackerRecordStore.takeAllRecords()
+    }
+
 }
 
 extension DataProvider: NSFetchedResultsControllerDelegate {
