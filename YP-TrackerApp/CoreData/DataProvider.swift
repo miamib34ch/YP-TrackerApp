@@ -9,8 +9,8 @@ import Foundation
 import CoreData
 
 protocol DataProviderDelegate {
-    func updateTable()
     func updateCollection()
+    func updateVisibleCategories()
 }
 
 final class DataProvider: NSObject {
@@ -23,41 +23,21 @@ final class DataProvider: NSObject {
     private let trackerCategoryStore = TrackerCategoryStore()
     private let trackerRecordStore = TrackerRecordStore()
 
-    private lazy var trackerFetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
+    private var trackerFetchedResultsController: NSFetchedResultsController<TrackerCoreData> = {
         let fetchRequest = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(TrackerCoreData.name), ascending: false)]
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                   managedObjectContext: CoreDataStack.context,
                                                                   sectionNameKeyPath: nil,
                                                                   cacheName: nil)
-        fetchedResultsController.delegate = self
-        try? fetchedResultsController.performFetch()
-        return fetchedResultsController
-    }()
-    private lazy var trackerCategoryFetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData> = {
-        let fetchRequest = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(TrackerCategoryCoreData.name), ascending: false)]
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: CoreDataStack.context,
-                                                                  sectionNameKeyPath: nil,
-                                                                  cacheName: nil)
-        fetchedResultsController.delegate = self
-        try? fetchedResultsController.performFetch()
-        return fetchedResultsController
-    }()
-    private lazy var trackerRecordFetchedResultsController: NSFetchedResultsController<TrackerRecordCoreData> = {
-        let fetchRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(TrackerRecordCoreData.date), ascending: false)]
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: CoreDataStack.context,
-                                                                  sectionNameKeyPath: nil,
-                                                                  cacheName: nil)
-        fetchedResultsController.delegate = self
         try? fetchedResultsController.performFetch()
         return fetchedResultsController
     }()
 
     private override init() {
+        super.init()
+        
+        trackerFetchedResultsController.delegate = self
     }
 
     func takeCategories() -> [TrackerCategory] {
@@ -87,38 +67,13 @@ final class DataProvider: NSObject {
     func takeRecords() -> Set<TrackerRecord> {
         return trackerRecordStore.takeAllRecords()
     }
-
+    
 }
 
 extension DataProvider: NSFetchedResultsControllerDelegate {
-
+    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        switch controller {
-        case is NSFetchedResultsController<TrackerCoreData>:
-            print("yes")
-        case is NSFetchedResultsController<TrackerCategoryCoreData>:
-            print("no")
-        case is NSFetchedResultsController<TrackerRecordCoreData>:
-            print("oh no")
-        default:
-            break
-        }
-        print("works")
-        delegate?.updateCollection()
-    }
-
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        switch controller {
-        case is NSFetchedResultsController<TrackerCoreData>:
-            print("yes")
-        case is NSFetchedResultsController<TrackerCategoryCoreData>:
-            print("no")
-        case is NSFetchedResultsController<TrackerRecordCoreData>:
-            print("oh no")
-        default:
-            break
-        }
-        print("works")
+        delegate?.updateVisibleCategories()
         delegate?.updateCollection()
     }
 

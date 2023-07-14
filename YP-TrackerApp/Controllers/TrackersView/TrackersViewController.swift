@@ -17,7 +17,7 @@ protocol TrackersViewProtocol {
     func updateVisibleCategories()
 }
 
-final class TrackersViewController: UIViewController, TrackersViewProtocol, TrackerCellDelegate {
+final class TrackersViewController: UIViewController, TrackersViewProtocol, TrackerCellDelegate, DataProviderDelegate {
 
     private let addTrackerButton = UIButton()
     private let mainLabel = UILabel()
