@@ -15,11 +15,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
-        let tabBarController = TabBarController()
-
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = tabBarController
+        
+        if UserDefaults.standard.bool(forKey: "onboardingWasShowed") {
+            let tabBarController = TabBarController()
+            window?.rootViewController = tabBarController
+        } else {
+            let onboardingPageViewController = OnboardingPageViewController(transitionStyle: .scroll,
+                                                                            navigationOrientation: .horizontal)
+            window?.rootViewController = onboardingPageViewController
+            UserDefaults.standard.set(true, forKey: "onboardingWasShowed")
+        }
+
         window?.makeKeyAndVisible()
     }
 
