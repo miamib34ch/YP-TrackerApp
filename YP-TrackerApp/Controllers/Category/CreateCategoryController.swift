@@ -13,6 +13,8 @@ final class CreateCategoryController: UIViewController {
     private let button = UIButton()
     let textField = MyTextField()
 
+    private let dataProvider = DataProvider.shared
+
     var editingIndex: Int?
     var categoryController: CategoryController?
 
@@ -134,7 +136,7 @@ final class CreateCategoryController: UIViewController {
         let trimmedNewCategory = newCategory.trimmingCharacters(in: NSCharacterSet.whitespaces)
 
         if let editingIndex = editingIndex {
-            DataProvider.shared.editCategory(categoryName: categoryController.categories[editingIndex], newCategoryName: trimmedNewCategory)
+            dataProvider.editCategory(categoryName: categoryController.categories[editingIndex], newCategoryName: trimmedNewCategory)
             categoryController.categories[editingIndex] = trimmedNewCategory
             trackerView.categories[editingIndex] = TrackerCategory(name: trimmedNewCategory,
                                                                    trackers: trackerView.categories[editingIndex].trackers)
@@ -156,7 +158,7 @@ final class CreateCategoryController: UIViewController {
         }
     }
 
-    func thereIsSameCategory(categoryName: String) -> Bool {
+    func hasSameCategory(categoryName: String) -> Bool {
         guard let categoryController = categoryController else { return false }
         if categoryController.categories.contains(categoryName) && editingIndex == nil {
             return true
@@ -186,8 +188,8 @@ extension CreateCategoryController: UITextFieldDelegate {
         guard let stringRange = Range(range, in: currentText) else { return false }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
 
-        let isLessThan1 = updatedText.count < 1
-        if isLessThan1 || thereIsSameCategory(categoryName: updatedText.trimmingCharacters(in: NSCharacterSet.whitespaces)) {
+        let isEmpty = updatedText.count < 1
+        if isEmpty || hasSameCategory(categoryName: updatedText.trimmingCharacters(in: NSCharacterSet.whitespaces)) {
             makeButtonNoActive()
         } else {
             makeButtonActive()

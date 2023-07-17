@@ -49,6 +49,8 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
     private let tableNames = ["Категория", "Расписание"]
     var tableSubnames = ["", ""]
 
+    private let dataProvider = DataProvider.shared
+
     private let emojiCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let colorCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let sectionNames = ["Emoji", "Цвет"]
@@ -360,7 +362,7 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
                 trackers.append(newTracker)
                 let newCategory = TrackerCategory(name: selectedCategory ?? "", trackers: trackers)
                 updatedCategories.append(newCategory)
-                DataProvider.shared.addTracker(tracker: newTracker, category: newCategory)
+                dataProvider.addTracker(tracker: newTracker, category: newCategory)
             } else {
                 updatedCategories.append(categorie)
             }

@@ -78,7 +78,7 @@ final class TrackerCategoryStore {
             trackerCategoryCoreData.addToTrackers(tracker)
         } else {
             // Добавляем трекер
-            trackerCategoriesCoreData.first!.addToTrackers(tracker)
+            trackerCategoriesCoreData.first?.addToTrackers(tracker)
         }
 
         do {
@@ -114,7 +114,6 @@ final class TrackerCategoryStore {
             try CoreDataStack.saveContext()
         } catch {
             print("TrackerCategoryStore.editTrackerCategory: \(error)")
-            return
         }
     }
 

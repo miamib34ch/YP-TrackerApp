@@ -41,3 +41,19 @@ final class TrackerStore {
     }
 
 }
+
+private extension [Bool] {
+    
+    func boolString() -> String {
+        var result = ""
+        for bool in self {
+            if bool == true {
+                result += "1"
+            } else {
+                result += "0"
+            }
+        }
+        return result
+    }
+
+}

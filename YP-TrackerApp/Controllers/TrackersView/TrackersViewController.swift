@@ -28,8 +28,9 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     private let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     //private let filtersButton = UIButton()
 
-    var categories: [TrackerCategory] = DataProvider.shared.takeCategories()
-    var completedTrackers = DataProvider.shared.takeRecords()
+    private let dataProvider = DataProvider.shared
+    lazy var categories: [TrackerCategory] = dataProvider.takeCategories()
+    lazy var completedTrackers = dataProvider.takeRecords()
     private var currentDate: Date = Date()
     var visibleCategories: [TrackerCategory] = []
 
@@ -323,13 +324,13 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     private func saveTrackerRecord(for trackerID: UUID) {
         let trackerRecord = TrackerRecord(idTracker: trackerID, date: currentDate)
         completedTrackers.insert(trackerRecord)
-        DataProvider.shared.createRecord(id: trackerID, date: currentDate)
+        dataProvider.createRecord(id: trackerID, date: currentDate)
     }
 
     private func deleteTrackerRecord(for trackerID: UUID) {
         let trackerRecord = TrackerRecord(idTracker: trackerID, date: currentDate)
         completedTrackers.remove(trackerRecord)
-        DataProvider.shared.deleteRecord(id: trackerID, date: currentDate)
+        dataProvider.deleteRecord(id: trackerID, date: currentDate)
     }
 
     private func reload(_ cell: TrackerCell) {
