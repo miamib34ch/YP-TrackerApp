@@ -19,6 +19,8 @@ final class CategoryController: UIViewController, CreateTrackerDelegate {
     private var table = UITableView()
     private let imageView = UIImageView()
     private let imageLabel = UILabel()
+    
+    private let dataProvider = DataProvider.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -292,6 +294,7 @@ extension CategoryController: UITableViewDelegate {
                 }
             }
 
+            dataProvider.deleteCategory(categoryName: categories[indexPath.row])
             self.categories.remove(at: indexPath.row)
             self.createTrackerController?.trackerView?.categories.remove(at: indexPath.row)
 

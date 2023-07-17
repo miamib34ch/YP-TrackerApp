@@ -8,7 +8,6 @@
 import UIKit
 
 protocol TrackersViewProtocol {
-
     var categories: [TrackerCategory] { get set }
     var datePickerBackgroundView: UIView { get }
     var visibleCategories: [TrackerCategory] { get set}
@@ -18,7 +17,7 @@ protocol TrackersViewProtocol {
     func updateVisibleCategories()
 }
 
-final class TrackersViewController: UIViewController, TrackersViewProtocol, TrackerCellDelegate {
+final class TrackersViewController: UIViewController, TrackersViewProtocol, TrackerCellDelegate, DataProviderDelegate {
 
     private let addTrackerButton = UIButton()
     private let mainLabel = UILabel()
@@ -29,8 +28,9 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     private let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     //private let filtersButton = UIButton()
 
-    var categories: [TrackerCategory] = []
-    var completedTrackers = Set<TrackerRecord>()
+    private let dataProvider = DataProvider.shared
+    lazy var categories: [TrackerCategory] = dataProvider.takeCategories()
+    lazy var completedTrackers = dataProvider.takeRecords()
     private var currentDate: Date = Date()
     var visibleCategories: [TrackerCategory] = []
 
@@ -241,7 +241,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
         NSLayoutConstraint.activate([
             collection.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 24),
             collection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collection.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
+            collection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collection.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
@@ -324,12 +324,13 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     private func saveTrackerRecord(for trackerID: UUID) {
         let trackerRecord = TrackerRecord(idTracker: trackerID, date: currentDate)
         completedTrackers.insert(trackerRecord)
-
+        dataProvider.createRecord(id: trackerID, date: currentDate)
     }
 
     private func deleteTrackerRecord(for trackerID: UUID) {
         let trackerRecord = TrackerRecord(idTracker: trackerID, date: currentDate)
         completedTrackers.remove(trackerRecord)
+        dataProvider.deleteRecord(id: trackerID, date: currentDate)
     }
 
     private func reload(_ cell: TrackerCell) {
@@ -413,7 +414,7 @@ extension TrackersViewController: UISearchBarDelegate {
             }
             newCategory = []
         }
-        
+
         visibleCategories = newVisibleCategories
         updateCollection()
     }
@@ -484,9 +485,9 @@ extension TrackersViewController: UICollectionViewDataSource {
                                                         for: indexPath) as? TrackerCell else { return UICollectionViewCell() }
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
         cell.configureCell(with: tracker)
-        let dayCounter = completedTrackers.filter { $0.idTracker == tracker.id }.count
+        let dayCounter = completedTrackers.filter { $0.idTracker == tracker.idTracker }.count
         cell.setDayCounterLabel(with: dayCounter)
-        if isCompletedOnCurrentDate(tracker.id) {
+        if isCompletedOnCurrentDate(tracker.idTracker) {
             cell.buttonSetCheckmark()
         } else {
             cell.buttonSetPlus()

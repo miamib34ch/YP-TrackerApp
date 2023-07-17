@@ -53,7 +53,7 @@ final class TrackerCell: UICollectionViewCell {
         return label
     }()
 
-    private let dayCounterButton: UIButton = {
+    private lazy var dayCounterButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 17
@@ -85,7 +85,7 @@ final class TrackerCell: UICollectionViewCell {
     }
 
     func configureCell(with tracker: Tracker) {
-        trackerID = tracker.id
+        trackerID = tracker.idTracker
         colorView.backgroundColor = tracker.color
         emojiLabel.text = tracker.emoji
         trackerNameLabel.text = tracker.name
