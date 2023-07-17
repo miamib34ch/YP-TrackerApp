@@ -19,18 +19,17 @@ final class CategoryController: UIViewController, CreateTrackerDelegate {
     private var table = UITableView()
     private let imageView = UIImageView()
     private let imageLabel = UILabel()
-    
-    private let dataProvider = DataProvider.shared
+
+    private let viewModel = CategoryViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let trackerCategories = createTrackerController?.trackerView?.categories else { return }
-        for trackerCategory in trackerCategories {
-            categories.append(trackerCategory.name)
-
+        bind()
+        categories = viewModel.takeAllCategories()
+        for trackerCategory in categories {
             if let beforeSelectedCategory = createTrackerController?.selectedCategory {
-                if trackerCategory.name == beforeSelectedCategory {
-                    selectedCategory = categories.count-1
+                if trackerCategory == beforeSelectedCategory {
+                    selectedCategory = categories.firstIndex(of: beforeSelectedCategory)
                 }
             }
         }
@@ -46,6 +45,13 @@ final class CategoryController: UIViewController, CreateTrackerDelegate {
             createTrackerController?.selectedCategory = categories[selectedCategory]
             createTrackerController?.tableSubnames[0] = categories[selectedCategory]
             createTrackerController?.setTableSubnames()
+        }
+    }
+
+    private func bind() {
+        viewModel.selectRow = { [weak self] _ in
+            self!.createTrackerController?.setTableSubnames()
+            self!.dismiss(animated: true)
         }
     }
 
@@ -195,48 +201,39 @@ extension CategoryController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        return viewModel.takeAllCategories().count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "categoryCell")
-        cell.backgroundColor = UIColor(named: "ElementsBackgroundColor")
-        cell.selectionStyle = .none
-
-        cell.textLabel?.text = categories[indexPath.row]
-
-        let accessoryView = UIImageView(frame: CGRect(x: 0,
-                                                      y: 0,
-                                                      width: table.frame.width - cell.contentView.frame.width,
-                                                      height: 15))
-        accessoryView.contentMode = .scaleAspectFit
-        cell.accessoryView = accessoryView
+        let categoryCell = CategoryCell()
+        categoryCell.selectionStyle = .none
+        categoryCell.title.text = categories[indexPath.row]
 
         if indexPath.row == selectedCategory {
-            let checkmarkView = cell.accessoryView as? UIImageView
-            checkmarkView?.image =  UIImage(systemName: "checkmark")
-            checkmarkView?.tintColor = UIColor(named: "#3771E7")
+            let checkmarkView = categoryCell.checkmarkView
+            checkmarkView.image =  UIImage(systemName: "checkmark")
+            checkmarkView.tintColor = UIColor(named: "#3771E7")
         }
 
         if categories.count > 1 {
             if indexPath.row == 0 {
-                cell.layer.cornerRadius = 16
-                cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-                cell.layer.masksToBounds = true
+                categoryCell.contentView.layer.cornerRadius = 16
+                categoryCell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+                categoryCell.contentView.layer.masksToBounds = true
             }
             if indexPath.row == categories.count - 1 {
-                cell.layer.cornerRadius = 16
-                cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-                cell.layer.masksToBounds = true
+                categoryCell.contentView.layer.cornerRadius = 16
+                categoryCell.contentView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+                categoryCell.contentView.layer.masksToBounds = true
             }
             if indexPath.row != 0 {
-                cell.addSeperator(accessoryWidth: cell.accessoryView?.frame.width)
+                categoryCell.addSeperator(accessoryWidth: categoryCell.checkmarkView.frame.width + 25)
             }
         } else {
-            cell.layer.cornerRadius = 16
-            cell.layer.masksToBounds = true
+            categoryCell.contentView.layer.cornerRadius = 16
+            categoryCell.contentView.layer.masksToBounds = true
         }
-        return cell
+        return categoryCell
     }
 
 }
@@ -294,7 +291,7 @@ extension CategoryController: UITableViewDelegate {
                 }
             }
 
-            dataProvider.deleteCategory(categoryName: categories[indexPath.row])
+            viewModel.deleteCategory(name: categories[indexPath.row])
             self.categories.remove(at: indexPath.row)
             self.createTrackerController?.trackerView?.categories.remove(at: indexPath.row)
 
@@ -320,8 +317,7 @@ extension CategoryController: UITableViewDelegate {
         selectedCategory = indexPath.row
         createTrackerController?.selectedCategory = cell.textLabel?.text
         createTrackerController?.tableSubnames[0] = cell.textLabel?.text ?? ""
-        createTrackerController?.setTableSubnames()
-        dismiss(animated: true)
+        viewModel.didSelectRow()
     }
 
 }
