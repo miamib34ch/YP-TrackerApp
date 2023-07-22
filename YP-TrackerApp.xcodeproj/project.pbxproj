@@ -23,13 +23,14 @@
 		8B34F2192A658DBF000F214F /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B34F2182A658DBF000F214F /* CategoryCell.swift */; };
 		8B466C1C2A4C836000E12863 /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B466C1B2A4C836000E12863 /* UIDevice+Extension.swift */; };
 		8B466C1E2A4D6B0100E12863 /* TrackerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B466C1D2A4D6B0100E12863 /* TrackerCell.swift */; };
-		8B6C52412A59F392000B0B02 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B6C52402A59F392000B0B02 /* Int+Extension.swift */; };
 		8B90E8F829F98FBD00F7D996 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B90E8F729F98FBD00F7D996 /* AppDelegate.swift */; };
 		8B90E8FA29F98FBD00F7D996 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B90E8F929F98FBD00F7D996 /* SceneDelegate.swift */; };
 		8B90E8FC29F98FBD00F7D996 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B90E8FB29F98FBD00F7D996 /* TabBarController.swift */; };
 		8B90E90129F98FBE00F7D996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B90E90029F98FBE00F7D996 /* Assets.xcassets */; };
 		8B90E90429F98FBE00F7D996 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B90E90229F98FBE00F7D996 /* LaunchScreen.storyboard */; };
 		8BBC254A2A6C1E5700743BF0 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBC25492A6C1E5700743BF0 /* OnboardingViewController.swift */; };
+		8BBC254F2A6C257200743BF0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8BBC25512A6C257200743BF0 /* Localizable.strings */; };
+		8BBC25552A6C2A5000743BF0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 8BBC25572A6C2A5000743BF0 /* Localizable.stringsdict */; };
 		8BC425282A4DD48D00068CCC /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC425272A4DD48D00068CCC /* SupplementaryView.swift */; };
 		8BE32E9C2A0402E5009651EC /* MyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE32E9B2A0402E5009651EC /* MyTextField.swift */; };
 		8BEDA6F52A0181DF0029B2DC /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEDA6F42A0181DF0029B2DC /* Tracker.swift */; };
@@ -62,7 +63,6 @@
 		8B34F2182A658DBF000F214F /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		8B466C1B2A4C836000E12863 /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
 		8B466C1D2A4D6B0100E12863 /* TrackerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCell.swift; sourceTree = "<group>"; };
-		8B6C52402A59F392000B0B02 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		8B90E8F429F98FBD00F7D996 /* YP-TrackerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YP-TrackerApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B90E8F729F98FBD00F7D996 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B90E8F929F98FBD00F7D996 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +70,10 @@
 		8B90E90029F98FBE00F7D996 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B90E90529F98FBE00F7D996 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BBC25492A6C1E5700743BF0 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		8BBC25502A6C257200743BF0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8BBC25522A6C257800743BF0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8BBC25562A6C2A5000743BF0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		8BBC25592A6C2E9500743BF0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		8BC425272A4DD48D00068CCC /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
 		8BE32E9B2A0402E5009651EC /* MyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTextField.swift; sourceTree = "<group>"; };
 		8BEDA6F42A0181DF0029B2DC /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
@@ -186,15 +190,15 @@
 		8B90E8F629F98FBD00F7D996 /* YP-TrackerApp */ = {
 			isa = PBXGroup;
 			children = (
+				8B90E90529F98FBE00F7D996 /* Info.plist */,
 				8B90E8F729F98FBD00F7D996 /* AppDelegate.swift */,
 				8B90E8F929F98FBD00F7D996 /* SceneDelegate.swift */,
 				8B2B39D72A5D69D4009A5B0A /* CoreData */,
 				8BEDA6F62A0181F10029B2DC /* Models */,
 				8B27FADF29F9AF3D009F0DF2 /* Controllers */,
 				8BFC409A2A49ADA30004E81B /* Helpers */,
+				8BBC254C2A6C229900743BF0 /* Resource */,
 				8B90E90229F98FBE00F7D996 /* LaunchScreen.storyboard */,
-				8B90E90029F98FBE00F7D996 /* Assets.xcassets */,
-				8B90E90529F98FBE00F7D996 /* Info.plist */,
 			);
 			path = "YP-TrackerApp";
 			sourceTree = "<group>";
@@ -206,6 +210,16 @@
 				8B34F2142A656805000F214F /* OnboardingPageViewController.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		8BBC254C2A6C229900743BF0 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				8B90E90029F98FBE00F7D996 /* Assets.xcassets */,
+				8BBC25512A6C257200743BF0 /* Localizable.strings */,
+				8BBC25572A6C2A5000743BF0 /* Localizable.stringsdict */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		8BEDA6F62A0181F10029B2DC /* Models */ = {
@@ -226,7 +240,6 @@
 				8B2B39E22A5DB9DF009A5B0A /* UIColorMarshalling.swift */,
 				8BFC40982A49AD640004E81B /* UITableViewCell+Extension.swift */,
 				8B466C1B2A4C836000E12863 /* UIDevice+Extension.swift */,
-				8B6C52402A59F392000B0B02 /* Int+Extension.swift */,
 				8B22B9192A5EB123006585EC /* String+Extension.swift */,
 			);
 			path = Helpers;
@@ -292,6 +305,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B90E90429F98FBE00F7D996 /* LaunchScreen.storyboard in Resources */,
+				8BBC25552A6C2A5000743BF0 /* Localizable.stringsdict in Resources */,
+				8BBC254F2A6C257200743BF0 /* Localizable.strings in Resources */,
 				8B90E90129F98FBE00F7D996 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -332,7 +347,6 @@
 				8B90E8FC29F98FBD00F7D996 /* TabBarController.swift in Sources */,
 				8BFC409C2A4B2F440004E81B /* CategoryController.swift in Sources */,
 				8B27FADC29F9A887009F0DF2 /* StatsController.swift in Sources */,
-				8B6C52412A59F392000B0B02 /* Int+Extension.swift in Sources */,
 				8BE32E9C2A0402E5009651EC /* MyTextField.swift in Sources */,
 				8BC425282A4DD48D00068CCC /* SupplementaryView.swift in Sources */,
 				8BFC40992A49AD640004E81B /* UITableViewCell+Extension.swift in Sources */,
@@ -368,6 +382,24 @@
 				8B27FAE929FA77C6009F0DF2 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		8BBC25512A6C257200743BF0 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8BBC25502A6C257200743BF0 /* en */,
+				8BBC25522A6C257800743BF0 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		8BBC25572A6C2A5000743BF0 /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8BBC25562A6C2A5000743BF0 /* ru */,
+				8BBC25592A6C2E9500743BF0 /* en */,
+			);
+			name = Localizable.stringsdict;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

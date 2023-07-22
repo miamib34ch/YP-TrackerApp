@@ -107,7 +107,7 @@ final class TrackerCell: UICollectionViewCell {
     }
 
     func setDayCounterLabel(with dayCounter: Int) {
-        dayCounterLabel.text = dayCounter.days
+        dayCounterLabel.text = String.localizedStringWithFormat(NSLocalizedString("Counter", comment: "Надпись в ячейке трекера"), dayCounter)
     }
 
     private func setupConstraints() {

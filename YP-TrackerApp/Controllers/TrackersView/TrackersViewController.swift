@@ -101,7 +101,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     private func configureImageLabel() {
         if !view.subviews.contains(imageView) { return }
 
-        imageLabel.text = "Что будем отслеживать?"
+        imageLabel.text = NSLocalizedString("noTrackersLabel", comment: "Надпись заглушки, когда трекеры не созданы")
         imageLabel.font = UIFont.systemFont(ofSize: 12)
         imageLabel.textColor = UIColor(named: "MainForegroundColor")
 
@@ -147,7 +147,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     private func configureMainLabel() {
         if !view.subviews.contains(addTrackerButton) { return }
 
-        mainLabel.text = "Трекеры"
+        mainLabel.text = NSLocalizedString("trackerViewMainLabel", comment: "Главная надпись на экране трекеров")
         mainLabel.textColor = UIColor(named: "MainForegroundColor")
         mainLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
 
@@ -202,7 +202,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
                            state: .normal)
 
         searchBar.searchTextField.clearButtonMode = .never
-        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "Поиск",
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("search", comment: "Плейсхолдер в строке поиска"),
                                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "SearchBarColor") ?? UIColor.gray,
                                                                                           NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)])
         searchBar.returnKeyType = .go
@@ -259,7 +259,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
             configureImageLabel()
             if currentDate != Calendar.current.startOfDay(for: Date()) || !(searchBar.text ?? "").isEmpty {
                 imageView.image = UIImage(named: "NothingFound")
-                imageLabel.text = "Ничего не найдено"
+                imageLabel.text = NSLocalizedString("notFoundLabel", comment: "Надпись плейсхолдера, когда после фильтрации ничего не найдено")
             }
         }
     }

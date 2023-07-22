@@ -16,8 +16,8 @@ final class TabBarController: UITabBarController {
         let statsController = StatsController()
         viewControllers = [trackersController, statsController]
 
-        configureTabBarItems(trackersController, "Трекеры", UIImage(named: "TrackersLogo"))
-        configureTabBarItems(statsController, "Статистика", UIImage(named: "StatsLogo"))
+        configureTabBarItems(trackersController, NSLocalizedString("tabBarTrackers", comment: "Лейбл вкладки трекеров в таббаре"), UIImage(named: "TrackersLogo"))
+        configureTabBarItems(statsController, NSLocalizedString("tabBarStatistics", comment: "Лейбл вкладки статистики в таббаре"), UIImage(named: "StatsLogo"))
     }
 
     private func configureTabBarItems(_ controller: UIViewController, _ title: String, _ image: UIImage?) {
