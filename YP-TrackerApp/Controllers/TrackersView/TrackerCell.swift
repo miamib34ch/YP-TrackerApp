@@ -16,6 +16,7 @@ final class TrackerCell: UICollectionViewCell {
     weak var delegate: TrackerCellDelegate?
 
     var trackerID: UUID = UUID()
+    var fixed: Bool = false
 
     private let colorView: UIView = {
         let view = UIView()
@@ -77,6 +78,7 @@ final class TrackerCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         trackerID = UUID()
+        fixed = false
         colorView.backgroundColor = .clear
         emojiLabel.text = ""
         trackerNameLabel.text = ""
@@ -86,6 +88,7 @@ final class TrackerCell: UICollectionViewCell {
 
     func configureCell(with tracker: Tracker) {
         trackerID = tracker.idTracker
+        fixed = tracker.fixed
         colorView.backgroundColor = tracker.color
         emojiLabel.text = tracker.emoji
         trackerNameLabel.text = tracker.name

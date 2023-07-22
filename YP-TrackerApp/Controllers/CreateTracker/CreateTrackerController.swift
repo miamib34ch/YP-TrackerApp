@@ -13,6 +13,7 @@ protocol CreateTrackerDelegate: AnyObject {
 
 protocol CreateTrackerProtocol {
     var trackerView: TrackersViewProtocol? { get set }
+    var tracker: Tracker? { get set }
     var trackerTypeView: TrackerTypeController? { get set }
     var mainLabel: UILabel { get }
     var tableHeight: CGFloat { get set }
@@ -31,6 +32,7 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
 
     var trackerTypeView: TrackerTypeController?
     var trackerView: TrackersViewProtocol?
+    var tracker: Tracker?
 
     private let scrollView = UIScrollView()
     let mainLabel = UILabel()
@@ -82,6 +84,7 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
     var selectedColor: UIColor?
     var selectedShedule = [Bool](repeating: false, count: 7)
     var selectedCategory: String?
+    var beforeSelectedCategory: String?
     var isSectionSelected: [Bool] = [false, false]
 
     override func viewDidLoad() {
@@ -94,6 +97,54 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
         configureEmojiCollection()
         configureColorCollection()
         configureButtons()
+        
+        if let tracker = tracker {
+            textField.text = tracker.name
+            textFieldState = true
+            tableSubnames[0] = selectedCategory ?? ""
+            beforeSelectedCategory = selectedCategory
+            selectedShedule = tracker.shedule
+            tableSubnames [1] = createSubname()
+            selectedEmoji = tracker.emoji
+            selectedColor = tracker.color
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if tracker != nil {
+            let emojiCell = emojiCollectionView.cellForItem(at: IndexPath(row: emojies.firstIndex(of: selectedEmoji ?? "") ?? 0, section: 0))
+            emojiCell?.isSelected = true
+            (emojiCell as? EmojiAndColorCell)?.selectedBackgroundView = selectedBackgroundViewForEmoji
+            
+            let marshalling = UIColorMarshalling()
+            var index = 0
+            var selectedColorIndex = 0
+            for color in colors {
+                if marshalling.hexString(from: color) == marshalling.hexString(from: selectedColor ?? UIColor()) {
+                    selectedColorIndex = index
+                }
+                index += 1
+            }
+            
+            let colorCell = colorCollectionView.cellForItem(at: IndexPath(row: selectedColorIndex, section: 0))
+            
+            selectedBackgroundViewForColor.layer.borderColor = colors[selectedColorIndex].cgColor.copy(alpha: 0.3)
+            colorCell?.selectedBackgroundView = selectedBackgroundViewForColor
+            colorCell?.isSelected = true
+            
+            shouldCreationButtonBeActive()
+        }
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if tracker != nil {
+            trackerView?.datePickerBackgroundView.backgroundColor = UIColor(named: "#F0F0F0")
+            trackerView?.updateVisibleCategories()
+            trackerView?.updateCollection()
+        }
     }
 
     // Скрываем клавиатуру при нажатии на экран
@@ -346,30 +397,87 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
     }
 
     @objc private func createButtonTap() {
-        var updatedCategories: [TrackerCategory] = []
-        let categories = trackerView?.categories ?? [TrackerCategory]()
-        for categorie in categories {
-            if categorie.name == selectedCategory {
-                var trackers = categorie.trackers
-                if tableNumberRawsInSections == 1 {
-                    selectedShedule = [Bool](repeating: true, count: 7)
+        
+        if let tracker = tracker {
+            let newTracker = Tracker(idTracker: tracker.idTracker,
+                                     name: textField.text ?? "",
+                                     color: selectedColor ?? .black,
+                                     emoji: selectedEmoji ?? "",
+                                     shedule: selectedShedule,
+                                     fixed: tracker.fixed)
+            
+            let newCategory = TrackerCategory(name: selectedCategory ?? "", trackers: [])
+            let oldCategory = trackerView?.categories.first(where: {$0.name == beforeSelectedCategory}) ?? TrackerCategory(name: "", trackers: [])
+
+            dataProvider.editTracker(tracker: newTracker, oldCategory: oldCategory, newCategory: newCategory)
+            trackerView?.categories = dataProvider.takeCategories()
+            dismiss(animated: true)
+        } else {
+            var updatedCategories: [TrackerCategory] = []
+            let categories = trackerView?.categories ?? [TrackerCategory]()
+            for categorie in categories {
+                if categorie.name == selectedCategory {
+                    var trackers = categorie.trackers
+                    if tableNumberRawsInSections == 1 {
+                        selectedShedule = [Bool](repeating: true, count: 7)
+                    }
+                   
+                        let newTracker = Tracker(idTracker: UUID(),
+                                                 name: textField.text ?? "",
+                                                 color: selectedColor ?? .black,
+                                                 emoji: selectedEmoji ?? "",
+                                                 shedule: selectedShedule,
+                                                 fixed: false)
+                        trackers.append(newTracker)
+                        let newCategory = TrackerCategory(name: selectedCategory ?? "", trackers: trackers)
+                        updatedCategories.append(newCategory)
+                        dataProvider.addTracker(tracker: newTracker, category: newCategory)
+                    
+                } else {
+                    updatedCategories.append(categorie)
                 }
-                let newTracker = Tracker(idTracker: UUID(),
-                                         name: textField.text ?? "",
-                                         color: selectedColor ?? .black,
-                                         emoji: selectedEmoji ?? "",
-                                         shedule: selectedShedule)
-                trackers.append(newTracker)
-                let newCategory = TrackerCategory(name: selectedCategory ?? "", trackers: trackers)
-                updatedCategories.append(newCategory)
-                dataProvider.addTracker(tracker: newTracker, category: newCategory)
-            } else {
-                updatedCategories.append(categorie)
+            }
+            trackerView?.categories = updatedCategories
+            dismiss(animated: true)
+            trackerTypeView?.dismiss(animated: true)
+        }
+    }
+
+    private func createSubname() -> String {
+        let indices = selectedShedule.indices
+        var days: [String] = []
+        for index in indices where selectedShedule[index] == true {
+            switch index {
+            case 0:
+                days.append("Пн")
+            case 1:
+                days.append("Вт")
+            case 2:
+                days.append("Ср")
+            case 3:
+                days.append("Чт")
+            case 4:
+                days.append("Пт")
+            case 5:
+                days.append("Сб")
+            case 6:
+                days.append("Вс")
+            default:
+                break
             }
         }
-        trackerView?.categories = updatedCategories
-        dismiss(animated: true)
-        trackerTypeView?.dismiss(animated: true)
+        if days.count == 7 {
+            return "Каждый день"
+        } else {
+            var subname = ""
+            for day in days {
+                subname += day
+                if day != days[days.count - 1] {
+                    subname += ", "
+                }
+            }
+            return subname
+        }
     }
 
 }

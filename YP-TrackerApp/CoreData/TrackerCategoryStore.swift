@@ -38,7 +38,8 @@ final class TrackerCategoryStore {
                                                 name: name,
                                                 color: UIColorMarshalling().color(from: color),
                                                 emoji: emoji,
-                                                shedule: shedule.boolArray()))
+                                                shedule: shedule.boolArray(),
+                                                fixed: trackerCoreData.fixed))
                     }
                 }
             }
@@ -114,6 +115,30 @@ final class TrackerCategoryStore {
             try CoreDataStack.saveContext()
         } catch {
             print("TrackerCategoryStore.editTrackerCategory: \(error)")
+        }
+    }
+
+    func deleteTrackerFromCategory(tracker: TrackerCoreData, category: TrackerCategory) {
+        let request = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
+        request.returnsObjectsAsFaults = false
+
+        let predicat = NSPredicate(format: "%K == %@", #keyPath(TrackerCategoryCoreData.name), category.name)
+        request.predicate = predicat
+
+        var trackerCategoriesCoreData = [TrackerCategoryCoreData]()
+        do {
+            trackerCategoriesCoreData = try CoreDataStack.context.fetch(request)
+        } catch let error {
+            print("TrackerCategoryStore.addTrackerToCategory: \(error)")
+            return
+        }
+
+        trackerCategoriesCoreData.first?.removeFromTrackers(tracker)
+
+        do {
+            try CoreDataStack.saveContext()
+        } catch {
+            print("TrackerCategoryStore.addTrackerToCategory: save context - \(error)")
         }
     }
 

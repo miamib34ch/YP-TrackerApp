@@ -500,6 +500,77 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         return UIEdgeInsets(top: 12, left: 0, bottom: 16, right: 0)
     }
 
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let indexPath = indexPaths.first else { return UIContextMenuConfiguration() }
+        guard let fixed = (collectionView.cellForItem(at: indexPath) as? TrackerCell)?.fixed else { return UIContextMenuConfiguration() }
+        var fixActionTitle = ""
+        switch fixed {
+        case true:
+            fixActionTitle = NSLocalizedString("unfixTracker", comment: "Контекстное меню: открепление трекера")
+        case false:
+            fixActionTitle = NSLocalizedString("fixTracker", comment: "Контекстное меню: закрепление трекера")
+        }
+        let fixAction = UIAction(title: fixActionTitle) { [weak self] _ in
+            self?.fixItem(at: indexPath, state: fixed)
+        }
+        let editAction = UIAction(title: NSLocalizedString("editTracker", comment: "Контекстное меню: редактирование трекера")) { [weak self] _ in
+            self?.editItem(at: indexPath)
+        }
+        let deleteAction = UIAction(title: NSLocalizedString("deleteTracker", comment: "Контекстное меню: удаление трекера"), attributes: .destructive) { [weak self] _ in
+            self?.deleteItem(at: indexPath)
+        }
+
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            UIMenu(title: "", children: [fixAction, editAction, deleteAction])
+        }
+        return configuration
+    }
+    
+    private func fixItem(at indexPath: IndexPath, state: Bool) {
+        let item = collection.cellForItem(at: indexPath) as? TrackerCell
+        switch state {
+        case true:
+            item?.fixed = false
+        case false:
+            item?.fixed = true
+        }
+    }
+    
+    private func editItem(at indexPath: IndexPath) {
+        guard let item = collection.cellForItem(at: indexPath) as? TrackerCell else { return }
+        let createTrackerController = CreateTrackerController()
+        createTrackerController.trackerView = self
+        createTrackerController.mainLabel.text = "Редактирование привычки"
+        createTrackerController.tracker = dataProvider.findTracker(id: item.trackerID)
+        createTrackerController.selectedCategory = categories[indexPath.section].name
+        present (createTrackerController, animated: true)
+    }
+    
+    private func deleteItem(at indexPath: IndexPath) {
+        let deleteConfirmationAlert = UIAlertController(title: NSLocalizedString("questionBeforeDelete", comment: "Надпись уточняющая удаление трекера"),
+                                                        message: nil,
+                                                        preferredStyle: .actionSheet)
+
+        let deleteAction = UIAlertAction(title: NSLocalizedString("deleteTracker", comment: "Контекстное меню: удаление трекера"), style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
+            guard let item = self.collection.cellForItem(at: indexPath) as? TrackerCell else { return }
+            
+            self.dataProvider.deleteTracker(id: item.trackerID)
+            self.categories = self.dataProvider.takeCategories()
+            self.updateVisibleCategories()
+            self.updateCollection()
+            self.datePickerBackgroundView.backgroundColor = UIColor(named: "#F0F0F0")
+        }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: "Отмена действия"), style: .cancel) { [weak self] _ in
+            guard let self = self else { return }
+            self.datePickerBackgroundView.backgroundColor = UIColor(named: "#F0F0F0")
+        }
+
+        deleteConfirmationAlert.addAction(deleteAction)
+        deleteConfirmationAlert.addAction(cancelAction)
+        present(deleteConfirmationAlert, animated: true, completion: nil)
+    }
+
 }
 
 extension TrackersViewController: UICollectionViewDataSource {
