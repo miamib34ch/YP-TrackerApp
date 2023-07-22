@@ -50,6 +50,7 @@ final class DataProvider: NSObject {
 
     func deleteTracker(id: UUID) {
         trackerStore.deleteTracker(id: id)
+        trackerRecordStore.deleteTrackerRecord(id: id)
     }
     
     func findTracker(id: UUID) -> Tracker? {

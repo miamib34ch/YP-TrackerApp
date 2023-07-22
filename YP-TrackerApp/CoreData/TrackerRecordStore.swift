@@ -61,4 +61,22 @@ final class TrackerRecordStore {
         }
     }
 
+    func deleteTrackerRecord(id: UUID) {
+        let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        let predicate = NSPredicate(format: "%K == %@",
+                                    #keyPath(TrackerRecordCoreData.idTracker),
+                                    id.uuidString)
+        request.predicate = predicate
+        do {
+            let result = try CoreDataStack.context.fetch(request)
+            for trackerRecord in result {
+                CoreDataStack.context.delete(trackerRecord)
+            }
+            try CoreDataStack.saveContext()
+        } catch {
+            print("TrackerRecordStore.deleteTrackerRecord: \(error)")
+            return
+        }
+    }
+    
 }
