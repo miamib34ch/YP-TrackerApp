@@ -31,6 +31,8 @@
 		8BBC254A2A6C1E5700743BF0 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBC25492A6C1E5700743BF0 /* OnboardingViewController.swift */; };
 		8BBC254F2A6C257200743BF0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8BBC25512A6C257200743BF0 /* Localizable.strings */; };
 		8BBC25552A6C2A5000743BF0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 8BBC25572A6C2A5000743BF0 /* Localizable.stringsdict */; };
+		8BC33F9A2A6C84AB00992A7E /* YP_TrackerAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC33F992A6C84AB00992A7E /* YP_TrackerAppTests.swift */; };
+		8BC33FA22A6C84E300992A7E /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8BC33FA12A6C84E300992A7E /* SnapshotTesting */; };
 		8BC425282A4DD48D00068CCC /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC425272A4DD48D00068CCC /* SupplementaryView.swift */; };
 		8BE32E9C2A0402E5009651EC /* MyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE32E9B2A0402E5009651EC /* MyTextField.swift */; };
 		8BEDA6F52A0181DF0029B2DC /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEDA6F42A0181DF0029B2DC /* Tracker.swift */; };
@@ -43,6 +45,16 @@
 		8BFC409E2A4B34450004E81B /* CreateCategoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFC409D2A4B34450004E81B /* CreateCategoryController.swift */; };
 		8BFC40A02A4C68630004E81B /* EmojiAndColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFC409F2A4C68630004E81B /* EmojiAndColorCell.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8BC33F9B2A6C84AB00992A7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8B90E8EC29F98FBD00F7D996 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B90E8F329F98FBD00F7D996;
+			remoteInfo = "YP-TrackerApp";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		8B1C592C2A180250006C0F13 /* ScheduleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleController.swift; sourceTree = "<group>"; };
@@ -74,6 +86,8 @@
 		8BBC25522A6C257800743BF0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8BBC25562A6C2A5000743BF0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		8BBC25592A6C2E9500743BF0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		8BC33F972A6C84AB00992A7E /* YP-TrackerAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "YP-TrackerAppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BC33F992A6C84AB00992A7E /* YP_TrackerAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YP_TrackerAppTests.swift; sourceTree = "<group>"; };
 		8BC425272A4DD48D00068CCC /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
 		8BE32E9B2A0402E5009651EC /* MyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTextField.swift; sourceTree = "<group>"; };
 		8BEDA6F42A0181DF0029B2DC /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
@@ -92,6 +106,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BC33F942A6C84AB00992A7E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BC33FA22A6C84E300992A7E /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				8B90E8F629F98FBD00F7D996 /* YP-TrackerApp */,
+				8BC33F982A6C84AB00992A7E /* YP-TrackerAppTests */,
 				8B90E8F529F98FBD00F7D996 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -183,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				8B90E8F429F98FBD00F7D996 /* YP-TrackerApp.app */,
+				8BC33F972A6C84AB00992A7E /* YP-TrackerAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -220,6 +244,14 @@
 				8BBC25572A6C2A5000743BF0 /* Localizable.stringsdict */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		8BC33F982A6C84AB00992A7E /* YP-TrackerAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				8BC33F992A6C84AB00992A7E /* YP_TrackerAppTests.swift */,
+			);
+			path = "YP-TrackerAppTests";
 			sourceTree = "<group>";
 		};
 		8BEDA6F62A0181F10029B2DC /* Models */ = {
@@ -266,6 +298,27 @@
 			productReference = 8B90E8F429F98FBD00F7D996 /* YP-TrackerApp.app */;
 			productType = "com.apple.product-type.application";
 		};
+		8BC33F962A6C84AB00992A7E /* YP-TrackerAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8BC33F9F2A6C84AB00992A7E /* Build configuration list for PBXNativeTarget "YP-TrackerAppTests" */;
+			buildPhases = (
+				8BC33F932A6C84AB00992A7E /* Sources */,
+				8BC33F942A6C84AB00992A7E /* Frameworks */,
+				8BC33F952A6C84AB00992A7E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8BC33F9C2A6C84AB00992A7E /* PBXTargetDependency */,
+			);
+			name = "YP-TrackerAppTests";
+			packageProductDependencies = (
+				8BC33FA12A6C84E300992A7E /* SnapshotTesting */,
+			);
+			productName = "YP-TrackerAppTests";
+			productReference = 8BC33F972A6C84AB00992A7E /* YP-TrackerAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -279,6 +332,10 @@
 					8B90E8F329F98FBD00F7D996 = {
 						CreatedOnToolsVersion = 14.3;
 					};
+					8BC33F962A6C84AB00992A7E = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 8B90E8F329F98FBD00F7D996;
+					};
 				};
 			};
 			buildConfigurationList = 8B90E8EF29F98FBD00F7D996 /* Build configuration list for PBXProject "YP-TrackerApp" */;
@@ -290,11 +347,15 @@
 				en,
 			);
 			mainGroup = 8B90E8EB29F98FBD00F7D996;
+			packageReferences = (
+				8BC33FA02A6C84E300992A7E /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+			);
 			productRefGroup = 8B90E8F529F98FBD00F7D996 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8B90E8F329F98FBD00F7D996 /* YP-TrackerApp */,
+				8BC33F962A6C84AB00992A7E /* YP-TrackerAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -308,6 +369,13 @@
 				8BBC25552A6C2A5000743BF0 /* Localizable.stringsdict in Resources */,
 				8BBC254F2A6C257200743BF0 /* Localizable.strings in Resources */,
 				8B90E90129F98FBE00F7D996 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BC33F952A6C84AB00992A7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,7 +440,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8BC33F932A6C84AB00992A7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8BC33F9A2A6C84AB00992A7E /* YP_TrackerAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8BC33F9C2A6C84AB00992A7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8B90E8F329F98FBD00F7D996 /* YP-TrackerApp */;
+			targetProxy = 8BC33F9B2A6C84AB00992A7E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8B90E90229F98FBE00F7D996 /* LaunchScreen.storyboard */ = {
@@ -587,6 +671,42 @@
 			};
 			name = Release;
 		};
+		8BC33F9D2A6C84AB00992A7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VJ2CVRDMSL;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.miamib34ch.YP-TrackerAppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YP-TrackerApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/YP-TrackerApp";
+			};
+			name = Debug;
+		};
+		8BC33F9E2A6C84AB00992A7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VJ2CVRDMSL;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.miamib34ch.YP-TrackerAppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YP-TrackerApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/YP-TrackerApp";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -608,7 +728,35 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		8BC33F9F2A6C84AB00992A7E /* Build configuration list for PBXNativeTarget "YP-TrackerAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BC33F9D2A6C84AB00992A7E /* Debug */,
+				8BC33F9E2A6C84AB00992A7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8BC33FA02A6C84E300992A7E /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8BC33FA12A6C84E300992A7E /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8BC33FA02A6C84E300992A7E /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		8B22B9142A5DC01C006585EC /* Model.xcdatamodeld */ = {
