@@ -26,7 +26,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     private let imageView = UIImageView()
     private let imageLabel = UILabel()
     private let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    //private let filtersButton = UIButton()
+    private let filtersButton = UIButton()
 
     private let dataProvider = DataProvider.shared
     lazy var categories: [TrackerCategory] = dataProvider.takeCategories()
@@ -81,7 +81,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
             configureImageLabel()
         } else {
             configureCollection()
-            //configureFiltersButton()
+            configureFiltersButton()
         }
     }
 
@@ -251,10 +251,12 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
             if contains(imageView) && contains(imageLabel) {
                 removeImageAndLabel()
                 configureCollection()
+                configureFiltersButton()
             }
             collection.reloadData()
         } else {
             removeCollection()
+            removeFiltersButton()
             configureImage()
             configureImageLabel()
             if currentDate != Calendar.current.startOfDay(for: Date()) || !(searchBar.text ?? "").isEmpty {
@@ -270,7 +272,34 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     }
 
     private func configureFiltersButton() {
+        if !view.subviews.contains(collection) { return }
 
+        filtersButton.backgroundColor = UIColor(named: "#3772E7")
+        filtersButton.setTitle(NSLocalizedString("filterButton", comment: "Надпись на кнопке фильра"), for: .normal)
+        filtersButton.setTitleColor(.white, for: .normal)
+        filtersButton.titleLabel?.textAlignment = .center
+        filtersButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+
+        filtersButton.layer.cornerRadius = 16
+        filtersButton.layer.masksToBounds = true
+
+        filtersButton.addTarget(self, action: #selector(filterButtonTap), for: .touchUpInside)
+
+        filtersButton.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(filtersButton)
+
+        NSLayoutConstraint.activate([
+            filtersButton.heightAnchor.constraint(equalToConstant: 50),
+            filtersButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.304),
+            filtersButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            filtersButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    private func removeFiltersButton() {
+        if !(view.contains(filtersButton)) { return }
+        filtersButton.removeFromSuperview()
     }
 
     func updateVisibleCategories() {
@@ -357,6 +386,10 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
         let trackerTypeController = TrackerTypeController()
         trackerTypeController.trackerView = self
         present(trackerTypeController, animated: true)
+    }
+
+    @objc private func filterButtonTap() {
+
     }
 
 }
