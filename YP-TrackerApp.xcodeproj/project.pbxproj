@@ -29,6 +29,7 @@
 		8B90E8FC29F98FBD00F7D996 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B90E8FB29F98FBD00F7D996 /* TabBarController.swift */; };
 		8B90E90129F98FBE00F7D996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B90E90029F98FBE00F7D996 /* Assets.xcassets */; };
 		8B90E90429F98FBE00F7D996 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B90E90229F98FBE00F7D996 /* LaunchScreen.storyboard */; };
+		8BBC254A2A6C1E5700743BF0 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBC25492A6C1E5700743BF0 /* OnboardingViewController.swift */; };
 		8BC425282A4DD48D00068CCC /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC425272A4DD48D00068CCC /* SupplementaryView.swift */; };
 		8BE32E9C2A0402E5009651EC /* MyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE32E9B2A0402E5009651EC /* MyTextField.swift */; };
 		8BEDA6F52A0181DF0029B2DC /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BEDA6F42A0181DF0029B2DC /* Tracker.swift */; };
@@ -68,6 +69,7 @@
 		8B90E8FB29F98FBD00F7D996 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		8B90E90029F98FBE00F7D996 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B90E90529F98FBE00F7D996 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8BBC25492A6C1E5700743BF0 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		8BC425272A4DD48D00068CCC /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
 		8BE32E9B2A0402E5009651EC /* MyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTextField.swift; sourceTree = "<group>"; };
 		8BEDA6F42A0181DF0029B2DC /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
@@ -95,7 +97,7 @@
 		8B27FADF29F9AF3D009F0DF2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8B34F2142A656805000F214F /* OnboardingPageViewController.swift */,
+				8BBC254B2A6C1E8400743BF0 /* Onboarding */,
 				8B90E8FB29F98FBD00F7D996 /* TabBarController.swift */,
 				8B6C523B2A5594DE000B0B02 /* TrackersView */,
 				8B6C523F2A559562000B0B02 /* TrackerType */,
@@ -195,6 +197,15 @@
 				8B90E90529F98FBE00F7D996 /* Info.plist */,
 			);
 			path = "YP-TrackerApp";
+			sourceTree = "<group>";
+		};
+		8BBC254B2A6C1E8400743BF0 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				8BBC25492A6C1E5700743BF0 /* OnboardingViewController.swift */,
+				8B34F2142A656805000F214F /* OnboardingPageViewController.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		8BEDA6F62A0181F10029B2DC /* Models */ = {
@@ -339,6 +350,7 @@
 				8BFC409E2A4B34450004E81B /* CreateCategoryController.swift in Sources */,
 				8B2B39DF2A5D6B65009A5B0A /* TrackerRecordStore.swift in Sources */,
 				8B2B39DD2A5D6B57009A5B0A /* TrackerCategoryStore.swift in Sources */,
+				8BBC254A2A6C1E5700743BF0 /* OnboardingViewController.swift in Sources */,
 				8B90E8F829F98FBD00F7D996 /* AppDelegate.swift in Sources */,
 				8B90E8FA29F98FBD00F7D996 /* SceneDelegate.swift in Sources */,
 				8B22B91A2A5EB123006585EC /* String+Extension.swift in Sources */,
