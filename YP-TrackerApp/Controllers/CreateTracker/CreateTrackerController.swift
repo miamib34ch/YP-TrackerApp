@@ -357,7 +357,11 @@ final class CreateTrackerController: UIViewController, CreateTrackerProtocol {
         createButton.layer.cornerRadius = 16
         createButton.layer.masksToBounds = true
 
-        createButton.setTitle("Создать", for: .normal)
+        if tracker != nil {
+            createButton.setTitle("Сохранить", for: .normal)
+        } else {
+            createButton.setTitle("Создать", for: .normal)
+        }
         createButton.setTitleColor(.white, for: .normal)
         createButton.backgroundColor = UIColor(named: "#AEAFB4")
         createButton.addTarget(self, action: #selector(createButtonTap), for: .touchUpInside)
