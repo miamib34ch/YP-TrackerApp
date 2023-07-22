@@ -19,3 +19,4 @@ editTracker = "Редактировать";
 deleteTracker = "Удалить";
 cancel = "Отмена";
 questionBeforeDelete = "Уверены что хотите удалить трекер?";
+fixLabel = "Закреплённые";

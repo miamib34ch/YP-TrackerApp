@@ -33,6 +33,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     lazy var completedTrackers = dataProvider.takeRecords()
     private var currentDate: Date = Date()
     var visibleCategories: [TrackerCategory] = []
+    var fixedTrackers = TrackerCategory(name: NSLocalizedString("fixLabel", comment: "Категория закреплённые"), trackers: [])
 
     var datePickerBackgroundView: UIView {
         return datePicker.subviews[0].subviews[0].subviews[0]
@@ -304,10 +305,15 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
 
     func updateVisibleCategories() {
         visibleCategories = []
+        updateFixed()
+        if !fixedTrackers.trackers.isEmpty {
+            visibleCategories.append(fixedTrackers)
+        }
+        
         for category in categories where !category.trackers.isEmpty {
             var trackers: [Tracker] = []
 
-            for tracker in category.trackers {
+            for tracker in category.trackers where tracker.fixed == false {
                 if tracker.shedule[0] == true && weekDayDateFormatter.string(from: currentDate) == "понедельник" {
                     trackers.append(tracker)
                 }
@@ -531,9 +537,26 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         switch state {
         case true:
             item?.fixed = false
+            dataProvider.editFixedStateTracker(id: item?.trackerID ?? UUID(), state: false)
         case false:
             item?.fixed = true
+            dataProvider.editFixedStateTracker(id: item?.trackerID ?? UUID(), state: true)
         }
+        categories = dataProvider.takeCategories()
+        updateVisibleCategories()
+        updateCollection()
+    }
+    
+    func updateFixed() {
+        var trackers = [Tracker]()
+        for category in categories {
+            for tracker in category.trackers {
+                if tracker.fixed {
+                    trackers.append(tracker)
+                }
+            }
+        }
+        fixedTrackers = TrackerCategory(name: fixedTrackers.name, trackers: trackers)
     }
     
     private func editItem(at indexPath: IndexPath) {
