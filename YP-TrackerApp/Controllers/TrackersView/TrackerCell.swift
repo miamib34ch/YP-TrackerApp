@@ -144,6 +144,7 @@ final class TrackerCell: UICollectionViewCell {
     }
 
     @objc private func increaseDayCounter() {
+        (UIApplication.shared.delegate as! AppDelegate).report(event: "click", params: ["screen": "Main", "item": "track"])
         delegate?.trackerCellDidTapButton(self)
     }
 

@@ -27,6 +27,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     private let imageLabel = UILabel()
     private let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let filtersButton = UIButton()
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     private let dataProvider = DataProvider.shared
     lazy var categories: [TrackerCategory] = dataProvider.takeCategories()
@@ -53,6 +54,13 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
         super.viewDidLoad()
         configureView()
         currentDate = Calendar.current.startOfDay(for: datePicker.date)
+        appDelegate.report(event: "open", params: ["screen": "Main"])
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        appDelegate.report(event: "close", params: ["screen": "Main"])
     }
 
     override func viewDidLayoutSubviews() {
@@ -389,13 +397,15 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     }
 
     @objc private func newTracker() {
+        appDelegate.report(event: "click", params: ["screen": "Main", "item": "add_track"])
+        
         let trackerTypeController = TrackerTypeController()
         trackerTypeController.trackerView = self
         present(trackerTypeController, animated: true)
     }
 
     @objc private func filterButtonTap() {
-
+        appDelegate.report(event: "click", params: ["screen": "Main", "item": "filter"])
     }
 
 }
@@ -560,6 +570,8 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     }
     
     private func editItem(at indexPath: IndexPath) {
+        appDelegate.report(event: "click", params: ["screen": "Main", "item": "edit"])
+        
         guard let item = collection.cellForItem(at: indexPath) as? TrackerCell else { return }
         let createTrackerController = CreateTrackerController()
         createTrackerController.trackerView = self
@@ -570,6 +582,8 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     }
     
     private func deleteItem(at indexPath: IndexPath) {
+        appDelegate.report(event: "click", params: ["screen": "Main", "item": "delete"])
+        
         let deleteConfirmationAlert = UIAlertController(title: NSLocalizedString("questionBeforeDelete", comment: "Надпись уточняющая удаление трекера"),
                                                         message: nil,
                                                         preferredStyle: .actionSheet)
