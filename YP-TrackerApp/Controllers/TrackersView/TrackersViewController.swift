@@ -54,6 +54,10 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
         super.viewDidLoad()
         configureView()
         currentDate = Calendar.current.startOfDay(for: datePicker.date)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         appDelegate.report(event: "open", params: ["screen": "Main"])
     }
     
