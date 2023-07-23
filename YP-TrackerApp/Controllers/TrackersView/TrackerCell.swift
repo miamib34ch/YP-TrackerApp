@@ -97,14 +97,14 @@ final class TrackerCell: UICollectionViewCell {
 
     func buttonSetPlus() {
         let symbolConfig = UIImage.SymbolConfiguration(scale: .small)
-        let plusImage = UIImage(systemName: "plus", withConfiguration: symbolConfig)
+        let plusImage = UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "MainBackgroundColor") ?? .black, renderingMode: .alwaysOriginal)
         dayCounterButton.setImage(plusImage, for: .normal)
         dayCounterButton.backgroundColor = dayCounterButton.backgroundColor?.withAlphaComponent(1.0)
     }
 
     func buttonSetCheckmark() {
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 16, weight: .bold, scale: .small)
-        let checkmarkImage = UIImage(systemName: "checkmark", withConfiguration: symbolConfig)
+        let checkmarkImage = UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "MainBackgroundColor") ?? .black, renderingMode: .alwaysOriginal)
         dayCounterButton.setImage(checkmarkImage, for: .normal)
         dayCounterButton.backgroundColor = dayCounterButton.backgroundColor?.withAlphaComponent(0.3)
     }
