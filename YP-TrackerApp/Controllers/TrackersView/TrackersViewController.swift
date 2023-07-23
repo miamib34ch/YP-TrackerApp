@@ -34,7 +34,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     lazy var completedTrackers = dataProvider.takeRecords()
     private var currentDate: Date = Date()
     var visibleCategories: [TrackerCategory] = []
-    var fixedTrackers = TrackerCategory(name: NSLocalizedString("fixLabel", comment: "Категория закреплённые"), trackers: [])
+    private var fixedTrackers = TrackerCategory(name: NSLocalizedString("fixLabel", comment: "Категория закреплённые"), trackers: [])
 
     var datePickerBackgroundView: UIView {
         return datePicker.subviews[0].subviews[0].subviews[0]
@@ -557,7 +557,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         updateCollection()
     }
     
-    func updateFixed() {
+    private func updateFixed() {
         var trackers = [Tracker]()
         for category in categories {
             for tracker in category.trackers {

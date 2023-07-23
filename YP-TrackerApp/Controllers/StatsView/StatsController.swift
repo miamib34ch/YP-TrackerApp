@@ -9,7 +9,7 @@ import UIKit
 
 final class StatsController: UIViewController {
     
-    let statisticsLabel: UILabel = {
+    private let statisticsLabel: UILabel = {
         let label = UILabel()
         label.text = "Статистика"
         label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
@@ -17,13 +17,13 @@ final class StatsController: UIViewController {
         return label
     }()
     
-    let placeholderImage: UIImageView = {
+    private let placeholderImage: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "StatsPlaceholder"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    let placeholderLabel: UILabel = {
+    private let placeholderLabel: UILabel = {
         let label = UILabel()
         label.text = "Анализировать пока нечего"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -31,7 +31,7 @@ final class StatsController: UIViewController {
         return label
     }()
     
-    let statisticsTable: UITableView = {
+    private let statisticsTable: UITableView = {
         let table = UITableView()
         table.register(StatsCell.self, forCellReuseIdentifier: "statisticsCell")
         table.separatorStyle = .none

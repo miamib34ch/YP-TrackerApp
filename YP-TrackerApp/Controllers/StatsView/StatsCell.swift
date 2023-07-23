@@ -19,7 +19,7 @@ final class StatsCell: UITableViewCell {
         return label
     }()
     
-    let stringLablel: UILabel = {
+    private let stringLablel: UILabel = {
         let label = UILabel()
         label.text = "Трекеров завершено"
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
