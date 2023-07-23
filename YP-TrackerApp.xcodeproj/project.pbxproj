@@ -142,8 +142,7 @@
 				8B6C523C2A5594F4000B0B02 /* CreateTracker */,
 				8B6C523D2A559535000B0B02 /* Category */,
 				8B6C523E2A559551000B0B02 /* Schedule */,
-				8B27FADB29F9A887009F0DF2 /* StatsController.swift */,
-				8BA2B6B22A6C909D006811A1 /* StatsCell.swift */,
+				8B4CF4612A6D78D6003C71E9 /* StatsView */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -159,6 +158,15 @@
 				8B2B39E02A5D91CE009A5B0A /* DataProvider.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		8B4CF4612A6D78D6003C71E9 /* StatsView */ = {
+			isa = PBXGroup;
+			children = (
+				8B27FADB29F9A887009F0DF2 /* StatsController.swift */,
+				8BA2B6B22A6C909D006811A1 /* StatsCell.swift */,
+			);
+			path = StatsView;
 			sourceTree = "<group>";
 		};
 		8B6C523B2A5594DE000B0B02 /* TrackersView */ = {
