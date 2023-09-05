@@ -3,7 +3,7 @@
 ## **Ссылки**
 
 - [Дизайн Figma](https://www.figma.com/file/owAO4CAPTJdpM1BZU5JHv7/Tracker-(YP)?t=SZDLmkWeOPX4y6mp-0)
-- [Скринкаст готового приложения]()
+- [Скринкаст приложения](https://youtu.be/wlwpKb8j2vA)
 
 ## **Назначение и цели приложения**
 
