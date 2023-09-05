@@ -183,7 +183,7 @@
 1. Скачайте архив *main ветки* из github:  
    <img width="1438" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/327d670d-8eec-45ad-a30b-81b03d5dd3ec">  
 2. Распакуйте архив и запустите проект:  
-   2.1 Откройте терминал в расспакованной папке и запустите команду pod install:  
+   2.1 Откройте терминал в расспакованной папке и запустите команду *pod install*:  
    <img width="410" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/84a9ad22-0f46-41a5-ab7d-b190cca9ac00">  
    <img width="564" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/040722f3-35d7-484d-8020-cd6da18cd690">  
    2.2 Зайдите в распакованную папку:  
