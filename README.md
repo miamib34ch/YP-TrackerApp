@@ -179,3 +179,14 @@
 4. Используются внешние зависимости через SPM: Swift-snapshot-testing. И ещё через CocoaPods: YandexMobileMetrica.
 
 ## **Инструкция по запуску**
+Для запуска потребуется [Xcode](https://developer.apple.com/xcode/)
+1. Скачайте архив *main ветки* из github:  
+   <img width="1438" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/327d670d-8eec-45ad-a30b-81b03d5dd3ec">  
+2. Распакуйте архив и запустите проект:  
+   2.1 Зайдите в распакованную папку:  
+   <img width="712" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/573dc326-8323-4bb3-a505-113855488277">  
+   2.2 Откройте файл *YP-TrackerApp.xcodeproj*:  
+   <img width="712" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/85f86b04-0f98-4b40-a12a-ca8f6df74e24">  
+   2.3 Появится окно, в котором нужно нажать *Trust and Open*:  
+   <img width="250" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/b7456bad-c362-41e9-9dd9-f4f085983bc5">  
+3. В Xcode запустите приложение на симуляторе или на реальном устройстве.
