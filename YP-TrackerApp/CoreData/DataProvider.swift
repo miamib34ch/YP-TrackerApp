@@ -48,6 +48,23 @@ final class DataProvider: NSObject {
         trackerStore.createTracker(tracker: tracker, category: category, categoryStore: trackerCategoryStore)
     }
 
+    func deleteTracker(id: UUID) {
+        trackerStore.deleteTracker(id: id)
+        trackerRecordStore.deleteTrackerRecord(id: id)
+    }
+    
+    func findTracker(id: UUID) -> Tracker? {
+        return trackerStore.findTracker(id: id)
+    }
+
+    func editFixedStateTracker(id: UUID, state: Bool) {
+        trackerStore.editFixedStateTracker(id: id, state: state)
+    }
+
+    func editTracker(tracker: Tracker, oldCategory: TrackerCategory, newCategory: TrackerCategory) {
+        trackerStore.editTracker(tracker: tracker, oldCategory: oldCategory, newCategory: newCategory, categoryStore: trackerCategoryStore)
+    }
+
     func deleteCategory(categoryName: String) {
         trackerCategoryStore.deleteTrackerCategory(name: categoryName)
     }

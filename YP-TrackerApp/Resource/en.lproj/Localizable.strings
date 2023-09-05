@@ -1,0 +1,22 @@
+/* 
+  Localizable.strings
+  YP-TrackerApp
+
+  Created by Богдан Полыгалов on 22.07.2023.
+  
+*/
+
+trackerViewMainLabel = "Trackers";
+filterButton = "Filters";
+tabBarTrackers = "Trackers";
+tabBarStatistics = "Statistics";
+noTrackersLabel = "What will we track?";
+notFoundLabel = "Nothing found";
+search = "Search";
+fixTracker = "Fix";
+unfixTracker = "Unfix";
+editTracker = "Edit";
+deleteTracker = "Delete";
+cancel = "Cancel";
+questionBeforeDelete = "Are you sure you want to delete the tracker?";
+fixLabel = "Fixed";

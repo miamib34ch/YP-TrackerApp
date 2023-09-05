@@ -26,6 +26,9 @@ final class CategoryController: UIViewController, CreateTrackerDelegate {
         super.viewDidLoad()
         bind()
         categories = viewModel.takeAllCategories()
+        if !categories.contains(createTrackerController?.selectedCategory ?? "") && createTrackerController?.selectedCategory != nil {
+            categories.append(createTrackerController?.selectedCategory ?? "")
+        }
         for trackerCategory in categories {
             if let beforeSelectedCategory = createTrackerController?.selectedCategory {
                 if trackerCategory == beforeSelectedCategory {
@@ -201,7 +204,7 @@ extension CategoryController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.takeAllCategories().count
+        return categories.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

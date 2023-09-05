@@ -16,6 +16,7 @@ final class TrackerCell: UICollectionViewCell {
     weak var delegate: TrackerCellDelegate?
 
     var trackerID: UUID = UUID()
+    var fixed: Bool = false
 
     private let colorView: UIView = {
         let view = UIView()
@@ -77,6 +78,7 @@ final class TrackerCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         trackerID = UUID()
+        fixed = false
         colorView.backgroundColor = .clear
         emojiLabel.text = ""
         trackerNameLabel.text = ""
@@ -86,6 +88,7 @@ final class TrackerCell: UICollectionViewCell {
 
     func configureCell(with tracker: Tracker) {
         trackerID = tracker.idTracker
+        fixed = tracker.fixed
         colorView.backgroundColor = tracker.color
         emojiLabel.text = tracker.emoji
         trackerNameLabel.text = tracker.name
@@ -94,20 +97,20 @@ final class TrackerCell: UICollectionViewCell {
 
     func buttonSetPlus() {
         let symbolConfig = UIImage.SymbolConfiguration(scale: .small)
-        let plusImage = UIImage(systemName: "plus", withConfiguration: symbolConfig)
+        let plusImage = UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "MainBackgroundColor") ?? .black, renderingMode: .alwaysOriginal)
         dayCounterButton.setImage(plusImage, for: .normal)
         dayCounterButton.backgroundColor = dayCounterButton.backgroundColor?.withAlphaComponent(1.0)
     }
 
     func buttonSetCheckmark() {
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 16, weight: .bold, scale: .small)
-        let checkmarkImage = UIImage(systemName: "checkmark", withConfiguration: symbolConfig)
+        let checkmarkImage = UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "MainBackgroundColor") ?? .black, renderingMode: .alwaysOriginal)
         dayCounterButton.setImage(checkmarkImage, for: .normal)
         dayCounterButton.backgroundColor = dayCounterButton.backgroundColor?.withAlphaComponent(0.3)
     }
 
     func setDayCounterLabel(with dayCounter: Int) {
-        dayCounterLabel.text = dayCounter.days
+        dayCounterLabel.text = String.localizedStringWithFormat(NSLocalizedString("Counter", comment: "Надпись в ячейке трекера"), dayCounter)
     }
 
     private func setupConstraints() {
@@ -141,6 +144,7 @@ final class TrackerCell: UICollectionViewCell {
     }
 
     @objc private func increaseDayCounter() {
+        (UIApplication.shared.delegate as! AppDelegate).report(event: "click", params: ["screen": "Main", "item": "track"])
         delegate?.trackerCellDidTapButton(self)
     }
 

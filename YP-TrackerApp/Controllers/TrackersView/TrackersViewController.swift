@@ -26,13 +26,15 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     private let imageView = UIImageView()
     private let imageLabel = UILabel()
     private let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    //private let filtersButton = UIButton()
+    private let filtersButton = UIButton()
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     private let dataProvider = DataProvider.shared
     lazy var categories: [TrackerCategory] = dataProvider.takeCategories()
     lazy var completedTrackers = dataProvider.takeRecords()
     private var currentDate: Date = Date()
     var visibleCategories: [TrackerCategory] = []
+    private var fixedTrackers = TrackerCategory(name: NSLocalizedString("fixLabel", comment: "Категория закреплённые"), trackers: [])
 
     var datePickerBackgroundView: UIView {
         return datePicker.subviews[0].subviews[0].subviews[0]
@@ -52,6 +54,17 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
         super.viewDidLoad()
         configureView()
         currentDate = Calendar.current.startOfDay(for: datePicker.date)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        appDelegate.report(event: "open", params: ["screen": "Main"])
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        appDelegate.report(event: "close", params: ["screen": "Main"])
     }
 
     override func viewDidLayoutSubviews() {
@@ -81,7 +94,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
             configureImageLabel()
         } else {
             configureCollection()
-            //configureFiltersButton()
+            configureFiltersButton()
         }
     }
 
@@ -101,7 +114,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     private func configureImageLabel() {
         if !view.subviews.contains(imageView) { return }
 
-        imageLabel.text = "Что будем отслеживать?"
+        imageLabel.text = NSLocalizedString("noTrackersLabel", comment: "Надпись заглушки, когда трекеры не созданы")
         imageLabel.font = UIFont.systemFont(ofSize: 12)
         imageLabel.textColor = UIColor(named: "MainForegroundColor")
 
@@ -147,7 +160,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     private func configureMainLabel() {
         if !view.subviews.contains(addTrackerButton) { return }
 
-        mainLabel.text = "Трекеры"
+        mainLabel.text = NSLocalizedString("trackerViewMainLabel", comment: "Главная надпись на экране трекеров")
         mainLabel.textColor = UIColor(named: "MainForegroundColor")
         mainLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
 
@@ -202,7 +215,7 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
                            state: .normal)
 
         searchBar.searchTextField.clearButtonMode = .never
-        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "Поиск",
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("search", comment: "Плейсхолдер в строке поиска"),
                                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "SearchBarColor") ?? UIColor.gray,
                                                                                           NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)])
         searchBar.returnKeyType = .go
@@ -251,15 +264,17 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
             if contains(imageView) && contains(imageLabel) {
                 removeImageAndLabel()
                 configureCollection()
+                configureFiltersButton()
             }
             collection.reloadData()
         } else {
             removeCollection()
+            removeFiltersButton()
             configureImage()
             configureImageLabel()
             if currentDate != Calendar.current.startOfDay(for: Date()) || !(searchBar.text ?? "").isEmpty {
                 imageView.image = UIImage(named: "NothingFound")
-                imageLabel.text = "Ничего не найдено"
+                imageLabel.text = NSLocalizedString("notFoundLabel", comment: "Надпись плейсхолдера, когда после фильтрации ничего не найдено")
             }
         }
     }
@@ -270,15 +285,47 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     }
 
     private func configureFiltersButton() {
+        if !view.subviews.contains(collection) { return }
 
+        filtersButton.backgroundColor = UIColor(named: "#3772E7")
+        filtersButton.setTitle(NSLocalizedString("filterButton", comment: "Надпись на кнопке фильра"), for: .normal)
+        filtersButton.setTitleColor(.white, for: .normal)
+        filtersButton.titleLabel?.textAlignment = .center
+        filtersButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+
+        filtersButton.layer.cornerRadius = 16
+        filtersButton.layer.masksToBounds = true
+
+        filtersButton.addTarget(self, action: #selector(filterButtonTap), for: .touchUpInside)
+
+        filtersButton.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(filtersButton)
+
+        NSLayoutConstraint.activate([
+            filtersButton.heightAnchor.constraint(equalToConstant: 50),
+            filtersButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.304),
+            filtersButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            filtersButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    private func removeFiltersButton() {
+        if !(view.contains(filtersButton)) { return }
+        filtersButton.removeFromSuperview()
     }
 
     func updateVisibleCategories() {
         visibleCategories = []
+        updateFixed()
+        if !fixedTrackers.trackers.isEmpty {
+            visibleCategories.append(fixedTrackers)
+        }
+        
         for category in categories where !category.trackers.isEmpty {
             var trackers: [Tracker] = []
 
-            for tracker in category.trackers {
+            for tracker in category.trackers where tracker.fixed == false {
                 if tracker.shedule[0] == true && weekDayDateFormatter.string(from: currentDate) == "понедельник" {
                     trackers.append(tracker)
                 }
@@ -354,9 +401,15 @@ final class TrackersViewController: UIViewController, TrackersViewProtocol, Trac
     }
 
     @objc private func newTracker() {
+        appDelegate.report(event: "click", params: ["screen": "Main", "item": "add_track"])
+        
         let trackerTypeController = TrackerTypeController()
         trackerTypeController.trackerView = self
         present(trackerTypeController, animated: true)
+    }
+
+    @objc private func filterButtonTap() {
+        appDelegate.report(event: "click", params: ["screen": "Main", "item": "filter"])
     }
 
 }
@@ -465,6 +518,98 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 12, left: 0, bottom: 16, right: 0)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let indexPath = indexPaths.first else { return UIContextMenuConfiguration() }
+        guard let fixed = (collectionView.cellForItem(at: indexPath) as? TrackerCell)?.fixed else { return UIContextMenuConfiguration() }
+        var fixActionTitle = ""
+        switch fixed {
+        case true:
+            fixActionTitle = NSLocalizedString("unfixTracker", comment: "Контекстное меню: открепление трекера")
+        case false:
+            fixActionTitle = NSLocalizedString("fixTracker", comment: "Контекстное меню: закрепление трекера")
+        }
+        let fixAction = UIAction(title: fixActionTitle) { [weak self] _ in
+            self?.fixItem(at: indexPath, state: fixed)
+        }
+        let editAction = UIAction(title: NSLocalizedString("editTracker", comment: "Контекстное меню: редактирование трекера")) { [weak self] _ in
+            self?.editItem(at: indexPath)
+        }
+        let deleteAction = UIAction(title: NSLocalizedString("deleteTracker", comment: "Контекстное меню: удаление трекера"), attributes: .destructive) { [weak self] _ in
+            self?.deleteItem(at: indexPath)
+        }
+
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            UIMenu(title: "", children: [fixAction, editAction, deleteAction])
+        }
+        return configuration
+    }
+    
+    private func fixItem(at indexPath: IndexPath, state: Bool) {
+        let item = collection.cellForItem(at: indexPath) as? TrackerCell
+        switch state {
+        case true:
+            item?.fixed = false
+            dataProvider.editFixedStateTracker(id: item?.trackerID ?? UUID(), state: false)
+        case false:
+            item?.fixed = true
+            dataProvider.editFixedStateTracker(id: item?.trackerID ?? UUID(), state: true)
+        }
+        categories = dataProvider.takeCategories()
+        updateVisibleCategories()
+        updateCollection()
+    }
+    
+    private func updateFixed() {
+        var trackers = [Tracker]()
+        for category in categories {
+            for tracker in category.trackers {
+                if tracker.fixed {
+                    trackers.append(tracker)
+                }
+            }
+        }
+        fixedTrackers = TrackerCategory(name: fixedTrackers.name, trackers: trackers)
+    }
+    
+    private func editItem(at indexPath: IndexPath) {
+        appDelegate.report(event: "click", params: ["screen": "Main", "item": "edit"])
+        
+        guard let item = collection.cellForItem(at: indexPath) as? TrackerCell else { return }
+        let createTrackerController = CreateTrackerController()
+        createTrackerController.trackerView = self
+        createTrackerController.mainLabel.text = "Редактирование привычки"
+        createTrackerController.tracker = dataProvider.findTracker(id: item.trackerID)
+        createTrackerController.selectedCategory = categories[indexPath.section].name
+        present (createTrackerController, animated: true)
+    }
+    
+    private func deleteItem(at indexPath: IndexPath) {
+        appDelegate.report(event: "click", params: ["screen": "Main", "item": "delete"])
+        
+        let deleteConfirmationAlert = UIAlertController(title: NSLocalizedString("questionBeforeDelete", comment: "Надпись уточняющая удаление трекера"),
+                                                        message: nil,
+                                                        preferredStyle: .actionSheet)
+
+        let deleteAction = UIAlertAction(title: NSLocalizedString("deleteTracker", comment: "Контекстное меню: удаление трекера"), style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
+            guard let item = self.collection.cellForItem(at: indexPath) as? TrackerCell else { return }
+            
+            self.dataProvider.deleteTracker(id: item.trackerID)
+            self.categories = self.dataProvider.takeCategories()
+            self.updateVisibleCategories()
+            self.updateCollection()
+            self.datePickerBackgroundView.backgroundColor = UIColor(named: "#F0F0F0")
+        }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: "Отмена действия"), style: .cancel) { [weak self] _ in
+            guard let self = self else { return }
+            self.datePickerBackgroundView.backgroundColor = UIColor(named: "#F0F0F0")
+        }
+
+        deleteConfirmationAlert.addAction(deleteAction)
+        deleteConfirmationAlert.addAction(cancelAction)
+        present(deleteConfirmationAlert, animated: true, completion: nil)
     }
 
 }
