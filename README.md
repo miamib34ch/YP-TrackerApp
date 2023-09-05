@@ -179,14 +179,15 @@
 4. Используются внешние зависимости через SPM: Swift-snapshot-testing. И ещё через CocoaPods: YandexMobileMetrica.
 
 ## **Инструкция по запуску**
-Для запуска потребуется [Xcode](https://developer.apple.com/xcode/)
+Для запуска потребуется [Xcode](https://developer.apple.com/xcode/) и установленный [CocoaPods](https://cocoapods.org)
 1. Скачайте архив *main ветки* из github:  
    <img width="1438" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/327d670d-8eec-45ad-a30b-81b03d5dd3ec">  
 2. Распакуйте архив и запустите проект:  
-   2.1 Зайдите в распакованную папку:  
+   2.1 Откройте терминал в расспакованной папке и запустите команду pod install:  
+   <img width="410" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/84a9ad22-0f46-41a5-ab7d-b190cca9ac00">  
+   <img width="564" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/040722f3-35d7-484d-8020-cd6da18cd690">  
+   2.2 Зайдите в распакованную папку:  
    <img width="712" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/573dc326-8323-4bb3-a505-113855488277">  
-   2.2 Откройте файл *YP-TrackerApp.xcodeproj*:  
-   <img width="712" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/85f86b04-0f98-4b40-a12a-ca8f6df74e24">  
-   2.3 Появится окно, в котором нужно нажать *Trust and Open*:  
-   <img width="250" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/b7456bad-c362-41e9-9dd9-f4f085983bc5">  
+   2.3 Откройте файл *YP-TrackerApp.xcworkspace*:  
+   <img width="699" alt="image" src="https://github.com/miamib34ch/YP-TrackerApp/assets/77894393/1e148d76-4307-47ab-b9de-5cc77ba1de4f">  
 3. В Xcode запустите приложение на симуляторе или на реальном устройстве.
